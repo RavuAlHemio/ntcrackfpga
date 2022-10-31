@@ -1,4 +1,5 @@
 module md4test(
+    input clk,
     input [7:0] new_hash_byte,
     input store_hash_byte,
     input run_md4,
@@ -34,7 +35,8 @@ wire checker_matchfound;
 reg write_next_hash;
 reg [2:0] next_hash;
 
-md4calc md4maker(
+md4block md4maker(
+    clk,
     md4_irdy,
     md4_in_a,
     md4_in_b,
