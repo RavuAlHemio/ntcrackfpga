@@ -4,21 +4,30 @@ import hashlib
 TEST = b"f\0a\0r\0t\0"
 
 
-def md4(what: bytes) -> str:
+def md4pad(what: bytes) -> bytes:
     # get length of bytes
     len_bytes = len(what)
     len_bits = len_bytes * 8
 
     # pad to multiple of 56 mod 64 bytes
-    what += b"\x80"
-    while len(what) % 64 != 56:
-        what += b"\x00"
+    padded = bytearray(what)
+    padded.extend(b"\x80")
+    while len(padded) % 64 != 56:
+        padded.extend(b"\x00")
 
     # append length as 64-bit little-endian number of bits
     len_bits_as_bytes = len_bits.to_bytes(8, "little")
-    what += len_bits_as_bytes
+    padded.extend(len_bits_as_bytes)
 
-    assert len(what) % 64 == 0
+    assert len(padded) % 64 == 0
+
+    return bytes(padded)
+
+
+def md4(what: bytes) -> str:
+    padded = md4pad(what)
+
+    assert len(padded) % 64 == 0
 
     # our operations
     f = lambda x, y, z: (x & y) | ((x ^ 0xFFFFFFFF) & z)
@@ -37,8 +46,8 @@ def md4(what: bytes) -> str:
     c = 0x98badcfe
     d = 0x10325476
 
-    while i < len(what):
-        what_hex = "".join(f"{b:02x}" for b in what)
+    while i < len(padded):
+        what_hex = "".join(f"{b:02x}" for b in padded)
         print(f"DATA: {what_hex}")
         print(f"START: {a:08x} {b:08x} {c:08x} {d:08x}")
         old_a = a
@@ -48,7 +57,7 @@ def md4(what: bytes) -> str:
 
         chunk: list[int] = []
         for j in range(0, 64, 4):
-            chunk.append(int.from_bytes(what[i+j:i+j+4], "little", signed=False))
+            chunk.append(int.from_bytes(padded[i+j:i+j+4], "little", signed=False))
 
         # F
         a = rol(a + f(b, c, d) + chunk[ 0],  3)
@@ -122,11 +131,27 @@ def md4(what: bytes) -> str:
 
 
 def main():
+    import binascii, sys
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "pad":
+            pad_what = sys.argv[2] if len(sys.argv) > 2 else ""
+            print(binascii.hexlify(md4pad(pad_what.encode("us-ascii"))).decode("us-ascii"))
+            return
+        if sys.argv[1] == "ref":
+            ref_what = sys.argv[2] if len(sys.argv) > 2 else ""
+            reference = hashlib.new("md4")
+            reference.update(ref_what.encode("us-ascii"))
+            print(reference.hexdigest().upper())
+            return
+        if sys.argv[1] == "run":
+            run_what = sys.argv[2].encode("us-ascii") if len(sys.argv) > 2 else TEST
+            # keep going
+
     reference = hashlib.new("md4")
-    reference.update(TEST)
+    reference.update(run_what)
     ref_digest = reference.hexdigest()
 
-    testy = md4(TEST)
+    testy = md4(run_what)
 
     print(f"ref: {ref_digest}")
     print(f"tst: {testy}")

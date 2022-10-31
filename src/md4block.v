@@ -119,11 +119,12 @@ always @ (posedge clk) begin
                 newstate_d <= state_d + dd;
             end
             51: ordy <= 1;
-            52: ordy <= 0;
+            52: /* keep ordy up */ ;
+            53: ordy <= 0;
         endcase
 
         // advance the state machine
-        if (step == 51)
+        if (step == 53)
             step <= 0;
         else
             step <= step + 1;
