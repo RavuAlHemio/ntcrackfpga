@@ -71,10 +71,6 @@ def main():
         ),
         Multiplexer(
             slice_size=8,
-            full_size=128*128,
-        ),
-        Multiplexer(
-            slice_size=8,
             full_size=160,
         ),
     ]

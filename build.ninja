@@ -23,11 +23,11 @@ rule ecppack
     command = $ecppack $in --svf $out
 
 build gen/inc/encodepwd.v: python3 genencode.py
-build gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_16384.v gen/mux_write_8_of_16384.v: python3dir genmux.py
+build gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_160.v gen/mux_write_8_of_160.v: python3dir genmux.py
     python3outdir = gen
 
-build md4test: iverilog src/hashchecker.v src/md4block.v src/md4test.v gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_16384.v gen/mux_write_8_of_16384.v | src/inc/byteswap.v gen/inc/encodepwd.v
-build md4test.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/md4test.v gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_16384.v gen/mux_write_8_of_16384.v | src/inc/byteswap.v gen/inc/encodepwd.v
+build md4test: iverilog src/hashchecker.v src/md4block.v src/md4test.v gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_160.v gen/mux_write_8_of_160.v | src/inc/byteswap.v gen/inc/encodepwd.v
+build md4test.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/md4test.v gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_160.v gen/mux_write_8_of_160.v | src/inc/byteswap.v gen/inc/encodepwd.v
     topmodule = md4test
 build md4test-pnr.txt: nextpnr_ecp5 md4test.json
 build md4test.svf md4test.bit: ecppack md4test-pnr.txt
