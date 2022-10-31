@@ -7,28 +7,17 @@ module pwadder(
     output reg [4:0] out_length,
     output reg completed);
 
+`include "gen/inc/muxes.v"
+
 reg [3:0] state;
 reg [4:0] index;
-reg read_trigger;
-reg write_trigger;
-wire [7:0] read_slice;
-reg [7:0] write_slice;
-wire [159:0] write_out_password;
-
-mux_read_8_of_160 mux_reader(
-    in_password,
-    index,
-    read_trigger,
-    read_slice);
-mux_write_8_of_160 mux_writer(
-    write_out_password,
-    index,
-    write_trigger,
-    write_slice);
+reg [7:0] slice;
+reg carry;
 
 initial begin
     state <= 0;
     index <= 0;
+    carry <= 0;
 end
 
 always @ (posedge clk) begin
@@ -38,90 +27,78 @@ always @ (posedge clk) begin
             if (trigger) begin
                 out_password <= in_password;
                 out_length <= in_length;
-                index <= in_length - 1;
+                index <= 0;
                 state <= 1;
             end
         end
         1: begin
             if (in_length == 0) begin
                 // this is rather trivial
-                out_password <= {8'h20, 152'h0};
+                out_password <= {152'h0, 8'h20};
                 out_length <= 1;
-                state <= 9; // we can signal completion
+                state <= 6; // completion
             end else begin
                 // get value of in_password[index]
-                read_trigger <= 1;
+                `MUX_READ_8_OF_160(in_password, index, slice);
 
                 state <= 2;
             end
         end
         2: begin
-            // keep read_trigger triggered
-
+            // increment
+            if (slice == 8'h7E) begin
+                // carry
+                slice <= 8'h20;
+                carry <= 1;
+            end else begin
+                // regular increment
+                slice <= slice + 1;
+            end
             state <= 3;
         end
         3: begin
-            // untrigger read_trigger
-            read_trigger <= 0;
+            // write value
+            `MUX_WRITE_8_OF_160(out_password, index, slice);
 
             state <= 4;
         end
         4: begin
-            // increment
-            if (read_slice == 8'h7E) begin
-                if (index == 0) begin
-                    // increment is overflowing; increase the length
-                    out_password <= 160'h2020202020202020202020202020202020202020;
-                    out_length <= out_length + 1;
-                    state <= 9; // we can signal completion
-                end else begin
-                    // try the next index to the left
-                    write_slice <= 8'h20;
-                    index <= index - 1;
-                    state <= 5;
-                end
+            // handle next step
+            if (carry) begin
+                // we are carrying; increment the next index
+                carry <= 0;
+                index <= index + 1;
+                state <= 5;
+            end else begin
+                // we are done; start signalling completion
+                state <= 6; // completion
             end
         end
         5: begin
-            // trigger write
-            write_trigger <= 1;
-
-            state <= 6;
+            // we are still carrying; halt before the final overflow
+            if (index == in_length) begin
+                // we have gone through all passwords of this length
+                // reset to zero and signal an increase
+                out_password <= 160'h2020202020202020202020202020202020202020;
+                out_length <= in_length + 1;
+                state <= 6; // completion
+            end else begin
+                // go around
+                state <= 1;
+            end
         end
         6: begin
-            // keep write_trigger triggered
+            // start signalling completion
+            completed <= 1;
 
             state <= 7;
         end
         7: begin
-            // untrigger write
-            write_trigger <= 0;
+            // keep signalling completion
 
             state <= 8;
         end
         8: begin
-            // transfer the password from the writer to our output
-            out_password <= write_out_password;
-
-            if (read_slice == 8'h7E)
-                // we are carrying; increment the next index
-                state <= 1;
-            else
-                // we are done; start signalling completion
-                state <= 9;
-        end
-        9: begin
-            // start signalling completion
-            completed <= 1;
-
-            state <= 10;
-        end
-        10: begin
-            // keep signalling completion
-
-            state <= 11;
-        end
-        11: begin
             // stop signalling completion
             completed <= 0;
 

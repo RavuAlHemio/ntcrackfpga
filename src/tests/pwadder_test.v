@@ -1,7 +1,7 @@
 module pwadder_test();
 
 reg clk;
-reg current_test;
+reg [3:0] current_test;
 reg [2:0] state;
 
 reg [159:0] in_password;
@@ -37,19 +37,7 @@ always begin
     clk <= !clk;
 end
 
-task check_test_result(
-    input [159:0] expected_out_password,
-    input [4:0] expected_out_length);
-        if (out_password != expected_out_password) begin
-            $display("test %d failed on password! expected %040x, obtained %040x", current_test, expected_out_password, out_password);
-            $finish();
-        end else if (out_length != expected_out_length) begin
-            $display("test %d failed on length! expected %02x, obtained %02x", current_test, expected_out_length, out_length);
-            $finish();
-        end else begin
-            $display("test %d OK", current_test);
-        end
-endtask
+`include "gen/inc/slice_equality.v"
 
 always @ (posedge clk) begin
     case (state)
@@ -61,7 +49,69 @@ always @ (posedge clk) begin
                     in_length <= 0;
                 end else begin
                     // check the result
-                    check_test_result({8'h20, 152'hX}, 1);
+                    check_test_result_1('h20);
+                end
+                1: if (state == 0) begin
+                    in_password <= 160'h2020202020202020202020202020202020202020;
+                    in_length <= 1;
+                end else begin
+                    check_test_result_1('h21);
+                end
+                2: if (state == 0) begin
+                    in_password <= 160'h2020202020202020202020202020202020202021;
+                    in_length <= 1;
+                end else begin
+                    check_test_result_1('h22);
+                end
+                3: if (state == 0) begin
+                    in_password <= 160'h202020202020202020202020202020202020207D;
+                    in_length <= 1;
+                end else begin
+                    check_test_result_1('h7E);
+                end
+                4: if (state == 0) begin
+                    in_password <= 160'h202020202020202020202020202020202020207E;
+                    in_length <= 1;
+                end else begin
+                    check_test_result_2('h2020);
+                end
+                5: if (state == 0) begin
+                    in_password <= 160'h2020202020202020202020202020202020202021;
+                    in_length <= 2;
+                end else begin
+                    check_test_result_2('h2022);
+                end
+                6: if (state == 0) begin
+                    in_password <= 160'h202020202020202020202020202020202020207E;
+                    in_length <= 2;
+                end else begin
+                    check_test_result_2('h2120);
+                end
+                7: if (state == 0) begin
+                    in_password <= 160'h2020202020202020202020202020202054455354;
+                    in_length <= 4;
+                end else begin
+                    check_test_result_4('h54455355);
+                end
+                8: if (state == 0) begin
+                    in_password <= 160'h20202020202020202020202020207E547E7E7E7E;
+                    in_length <= 6;
+                end else begin
+                    check_test_result_6('h7E5520202020);
+                end
+                9: if (state == 0) begin
+                    in_password <= 160'h7E7E7E7E7E7E7E7E7E7E7E7E7E7E7E7E7E7E7E7E;
+                    in_length <= 20;
+                end else begin
+                    if (out_length !== 21) begin
+                        $display("test 9 output length is not 21 but %d", out_length);
+                        $finish;
+                    end else if (out_password !== 160'h2020202020202020202020202020202020202020) begin
+                        $display("test 9 output is not twenty time 'h20 but %020x", out_password);
+                        $finish;
+                    end else begin
+                        $display("test 9 OK");
+                    end
                 end
             endcase
 
@@ -93,7 +143,7 @@ always @ (posedge clk) begin
         end
         // 5 has been moved up to be close to the test definition
         6: begin
-            if (current_test == 0) begin
+            if (current_test == 9) begin
                 $display("all tests completed");
                 $finish();
             end
