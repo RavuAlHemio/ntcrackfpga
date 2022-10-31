@@ -56,7 +56,7 @@ class Multiplexer(NamedTuple):
 
     @property
     def index_size(self):
-        return int(math.log2(self.max_index + 1))
+        return math.ceil(math.log2(self.max_index + 1))
 
 
 def main():
@@ -72,6 +72,10 @@ def main():
         Multiplexer(
             slice_size=8,
             full_size=128*128,
+        ),
+        Multiplexer(
+            slice_size=8,
+            full_size=160,
         ),
     ]
 
