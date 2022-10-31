@@ -6,20 +6,18 @@ module hashchecker (
     output reg resultrdy,
     output reg matchfound);
 
-reg state;
+`include "gen/inc/muxes.v"
+
+reg [3:0] state;
 reg [6:0] current_hash_index;
-wire [(128*128-1):0] hashes;
+reg [(128*128-1):0] hashes;
 reg write_trigger;
 reg [127:0] current_hash_bits;
 
-mux_write_128_of_16384 hashes_writer (
-    hashes,
-    current_hash_index,
-    write_trigger,
-    current_hash_bits);
-
 initial begin
+    state <= 0;
     current_hash_index <= 0;
+    hashes <= 0;
     write_trigger <= 0;
     current_hash_bits <= 0;
     resultrdy <= 0;
@@ -33,41 +31,29 @@ always @ (posedge clk) begin
             if (newrdy)
                 state <= 1;
             else if (checkrdy)
-                state <= 7;
+                state <= 5;
         end
 
         // "new" logic
         1: begin
-            // store hash locally
-            current_hash_bits <= hash;
+            // store
+            `MUX_WRITE_128_OF_16384(hashes, current_hash_index, hash);
 
             state <= 2;
         end
         2: begin
-            // trigger mux
-            write_trigger <= 1;
+            // increment current hash index
+            current_hash_index <= current_hash_index + 1;
 
             state <= 3;
         end
         3: begin
-            // untrigger mux
-            write_trigger <= 0;
+            // inform that we are done
+            resultrdy <= 1;
 
             state <= 4;
         end
         4: begin
-            // increment current hash index
-            current_hash_index <= current_hash_index <= 1;
-
-            state <= 5;
-        end
-        5: begin
-            // inform that we are done
-            resultrdy <= 1;
-
-            state <= 6;
-        end
-        6: begin
             // remove inform flag
             resultrdy <= 0;
 
@@ -76,13 +62,13 @@ always @ (posedge clk) begin
         end
 
         // "check" logic
-        7: begin
+        5: begin
             // set default result
             matchfound <= 0;
 
-            state <= 8;
+            state <= 6;
         end
-        8: begin
+        6: begin
             // check it all
             `define HASH_MATCHES(i) if (hashes[((i+1)*128-1):(i*128)] == hash) begin matchfound <= 1; end
             `HASH_MATCHES(0)
@@ -214,15 +200,20 @@ always @ (posedge clk) begin
             `HASH_MATCHES(126)
             `HASH_MATCHES(127)
 
-            state <= 9;
+            state <= 7;
         end
-        9: begin
+        7: begin
             // inform that we are done
             resultrdy <= 1;
 
-            state <= 10;
+            state <= 8;
         end
-        10: begin
+        8: begin
+            // leave the flag up for a bit
+
+            state <= 9;
+        end
+        9: begin
             // lower the flag again
             resultrdy <= 0;
 

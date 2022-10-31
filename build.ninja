@@ -28,7 +28,8 @@ build gen/inc/slice_equality.v: python3 genequality.py
 
 build md4test: iverilog src/hashchecker.v src/md4block.v src/md4test.v gen/inc/muxes.v | src/inc/byteswap.v gen/inc/encodepwd.v
 
-build pwadder_test.ictest: iverilog src/pwadder.v src/tests/pwadder_test.v gen/inc/muxes.v | gen/inc/slice_equality.v
+build pwadder_test.ictest: iverilog src/pwadder.v src/tests/pwadder_test.v | gen/inc/slice_equality.v gen/inc/muxes.v
+build hashchecker_test.ictest: iverilog src/hashchecker.v src/tests/hashchecker_test.v | gen/inc/muxes.v
 
 build md4test.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/md4test.v gen/inc/muxes.v | src/inc/byteswap.v gen/inc/encodepwd.v
     topmodule = md4test
