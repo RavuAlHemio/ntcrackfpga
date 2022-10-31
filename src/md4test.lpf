@@ -1,3 +1,7 @@
+LOCATE COMP "clk" SITE "Y19";
+FREQUENCY PORT "clk" 200 MHZ;
+IOBUF PORT "clk" IO_TYPE=LVDS;
+
 LOCATE COMP "new_hash_byte[0]" SITE "B15";
 LOCATE COMP "new_hash_byte[1]" SITE "B13";
 LOCATE COMP "new_hash_byte[2]" SITE "D11";
