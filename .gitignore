@@ -5,7 +5,8 @@ gen/
 
 # Icarus Verilog build artifacts
 md4test
-md4test.vcd
+*.vcd
+*.ictest
 
 # Yosys build artifacts
 md4test.json

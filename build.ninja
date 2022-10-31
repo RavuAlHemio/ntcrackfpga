@@ -27,6 +27,9 @@ build gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of
     python3outdir = gen
 
 build md4test: iverilog src/hashchecker.v src/md4block.v src/md4test.v gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_160.v gen/mux_write_8_of_160.v | src/inc/byteswap.v gen/inc/encodepwd.v
+
+build pwadder_test.ictest: iverilog src/pwadder.v src/tests/pwadder_test.v gen/mux_read_8_of_160.v gen/mux_write_8_of_160.v
+
 build md4test.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/md4test.v gen/mux_read_128_of_16384.v gen/mux_write_128_of_16384.v gen/mux_read_8_of_160.v gen/mux_write_8_of_160.v | src/inc/byteswap.v gen/inc/encodepwd.v
     topmodule = md4test
 build md4test-pnr.txt: nextpnr_ecp5 md4test.json
