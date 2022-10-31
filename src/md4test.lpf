@@ -1,0 +1,25 @@
+LOCATE COMP "new_hash_byte[0]" SITE "B15";
+LOCATE COMP "new_hash_byte[1]" SITE "B13";
+LOCATE COMP "new_hash_byte[2]" SITE "D11";
+LOCATE COMP "new_hash_byte[3]" SITE "B12";
+LOCATE COMP "new_hash_byte[4]" SITE "D12";
+LOCATE COMP "new_hash_byte[5]" SITE "C13";
+LOCATE COMP "new_hash_byte[6]" SITE "E13";
+LOCATE COMP "new_hash_byte[7]" SITE "A9";
+IOBUF PORT "new_hash_byte[0]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[7]" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "store_hash_byte" SITE "D15";
+IOBUF PORT "store_hash_byte" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "run_md4" SITE "C15";
+IOBUF PORT "run_md4" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "match_found_state" SITE "B20";
+IOBUF PORT "match_found_state" IO_TYPE=LVCMOS33;

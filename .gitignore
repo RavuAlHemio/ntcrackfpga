@@ -1,0 +1,14 @@
+# intermediate build artifacts
+.mypy_cache
+.ninja_log
+gen/
+
+# Icarus Verilog build artifacts
+md4test
+md4test.vcd
+
+# Yosys build artifacts
+md4test.json
+md4test-pnr.txt
+md4test.bit
+md4test.svf

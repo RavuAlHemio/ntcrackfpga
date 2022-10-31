@@ -1,0 +1,13 @@
+reasonable password alphabet: 0x20 through 0x7E = 95 values
+log2 tells us how many bits are needed to encode that
+log2(95) is almost 6,57 bits/char
+
+MD4 digest size: 128 bits
+divide that by the bits per character to get the number of characters
+=> 128/log2(95) < 19,48 characters
+
+=> MD4 breaks even at 20 characters
+
+note that the UTF-16 encoding doesn't influence this
+since every second byte is 0x00 in every value
+and this is common to all passwords
