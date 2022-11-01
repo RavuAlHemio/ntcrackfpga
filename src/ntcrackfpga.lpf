@@ -1,0 +1,49 @@
+LOCATE COMP "clk" SITE "Y19";
+FREQUENCY PORT "clk" 200 MHZ;
+IOBUF PORT "clk" IO_TYPE=LVDS;
+
+LOCATE COMP "new_hash_byte[0]" SITE "B15";
+LOCATE COMP "new_hash_byte[1]" SITE "B13";
+LOCATE COMP "new_hash_byte[2]" SITE "D11";
+LOCATE COMP "new_hash_byte[3]" SITE "B12";
+LOCATE COMP "new_hash_byte[4]" SITE "D12";
+LOCATE COMP "new_hash_byte[5]" SITE "C13";
+LOCATE COMP "new_hash_byte[6]" SITE "E13";
+LOCATE COMP "new_hash_byte[7]" SITE "A9";
+IOBUF PORT "new_hash_byte[0]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "new_hash_byte[7]" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "store_hash_byte" SITE "D15";
+IOBUF PORT "store_hash_byte" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "go" SITE "C15";
+IOBUF PORT "go" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "is_done" SITE "B20";
+IOBUF PORT "is_done" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "match_found" SITE "B20";
+IOBUF PORT "match_found" IO_TYPE=LVCMOS33;
+
+LOCATE COMP "password_byte[0]" SITE "K2";
+LOCATE COMP "password_byte[1]" SITE "A15";
+LOCATE COMP "password_byte[2]" SITE "H2";
+LOCATE COMP "password_byte[3]" SITE "J4";
+LOCATE COMP "password_byte[4]" SITE "J3";
+LOCATE COMP "password_byte[5]" SITE "L4";
+LOCATE COMP "password_byte[6]" SITE "M4";
+LOCATE COMP "password_byte[7]" SITE "N4";
+IOBUF PORT "password_byte[0]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "password_byte[7]" IO_TYPE=LVCMOS33;

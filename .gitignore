@@ -2,14 +2,16 @@
 .mypy_cache
 .ninja_log
 gen/
+*.log
 
 # Icarus Verilog build artifacts
-md4test
+ntcrackfpga.ic
 *.vcd
 *.ictest
 
 # Yosys build artifacts
-md4test.json
-md4test-pnr.txt
-md4test.bit
-md4test.svf
+abc.history
+ntcrackfpga.json
+ntcrackfpga-pnr.txt
+ntcrackfpga.bit
+ntcrackfpga.svf
