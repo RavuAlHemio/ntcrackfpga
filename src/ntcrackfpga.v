@@ -4,6 +4,7 @@ module ntcrackfpga(
     input store_hash_byte,
     input go,
     output reg match_found,
+    output reg your_turn,
     output reg [7:0] password_byte);
 
 `include "gen/inc/encodepwd.v"
@@ -101,6 +102,8 @@ initial begin
 
     next_hash_byte <= 0;
     password_byte_index <= 0;
+
+    your_turn <= 1;
 end
 
 always @ (posedge clk) begin
@@ -108,10 +111,13 @@ always @ (posedge clk) begin
         // loading stage
         0: begin
             // wait until we are asked to store a hash byte or to start processing
-            if (go)
+            if (go) begin
+                your_turn <= 0;
                 state <= 6;
-            else if (store_hash_byte)
+            end else if (store_hash_byte) begin
+                your_turn <= 0;
                 state <= 1;
+            end
         end
         1: begin
             // store the prepared hash byte
@@ -128,6 +134,7 @@ always @ (posedge clk) begin
             end else begin
                 // wait for the next byte
                 next_hash_byte <= next_hash_byte + 1;
+                your_turn <= 1;
 
                 state <= 0;
             end
@@ -145,8 +152,10 @@ always @ (posedge clk) begin
         end
         5: begin
             // wait until the checker has stored the hash, then return back
-            if (checker_resultrdy)
+            if (checker_resultrdy) begin
+                your_turn <= 1;
                 state <= 0;
+            end
         end
 
         // processing stage
@@ -223,12 +232,14 @@ always @ (posedge clk) begin
         end
         18: begin
             // raise the "byte is ready" flag
+            your_turn <= 1;
             match_found <= 1;
             state <= 19;
         end
         19: begin
             // keep match_found raised until "go"
             if (go) begin
+                your_turn <= 0;
                 match_found <= 0;
                 state <= 20;
             end
