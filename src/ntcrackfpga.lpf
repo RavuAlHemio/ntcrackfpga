@@ -31,6 +31,9 @@ IOBUF PORT "is_done" IO_TYPE=LVCMOS33;
 LOCATE COMP "match_found" SITE "B20";
 IOBUF PORT "match_found" IO_TYPE=LVCMOS33;
 
+LOCATE COMP "your_turn" SITE "E11";
+IOBUF PORT "your_turn" IO_TYPE=LVCMOS33;
+
 LOCATE COMP "password_byte[0]" SITE "K2";
 LOCATE COMP "password_byte[1]" SITE "A15";
 LOCATE COMP "password_byte[2]" SITE "H2";
