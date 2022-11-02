@@ -75,12 +75,6 @@ hashchecker hchecker(
     checker_matchfound);
 
 initial begin
-    `ifdef SIMULATION
-        // dump!
-        $dumpfile("ntcrackfpga.vcd");
-        $dumpvars(0, ntcrackfpga);
-    `endif
-
     state <= 0;
 
     password_chars <= 160'h2020202020202020202020202020202020202020;
