@@ -133,14 +133,16 @@ def md4(what: bytes) -> str:
 def main():
     import binascii, sys
     if len(sys.argv) > 1:
-        if sys.argv[1] == "pad":
+        if sys.argv[1] in ("pad", "utf16lepad"):
+            enc = "us-ascii" if sys.argv[1] == "pad" else "utf-16le"
             pad_what = sys.argv[2] if len(sys.argv) > 2 else ""
-            print(binascii.hexlify(md4pad(pad_what.encode("us-ascii"))).decode("us-ascii"))
+            print(binascii.hexlify(md4pad(pad_what.encode(enc))).decode("us-ascii"))
             return
-        if sys.argv[1] == "ref":
+        if sys.argv[1] in ("ref", "utf16leref"):
+            enc = "us-ascii" if sys.argv[1] == "ref" else "utf-16le"
             ref_what = sys.argv[2] if len(sys.argv) > 2 else ""
             reference = hashlib.new("md4")
-            reference.update(ref_what.encode("us-ascii"))
+            reference.update(ref_what.encode(enc))
             print(reference.hexdigest().upper())
             return
         if sys.argv[1] == "run":
