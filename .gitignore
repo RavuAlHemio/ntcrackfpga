@@ -9,6 +9,9 @@ ntcrackfpga.ic
 *.vcd
 *.ictest
 
+# preprocessed files (for debugging macros)
+*.vpp
+
 # Yosys build artifacts
 abc.history
 ntcrackfpga.json
