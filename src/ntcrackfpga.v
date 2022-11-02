@@ -234,7 +234,7 @@ always @ (posedge clk) begin
             end
         end
         20: begin
-            if (password_byte_index == 20) begin
+            if (password_byte_index == 19) begin
                 // this password is done; get on cracking
                 state <= 21;
             end else begin
