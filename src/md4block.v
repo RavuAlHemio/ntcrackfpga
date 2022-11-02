@@ -128,10 +128,7 @@ always @ (posedge clk) begin
             step <= 0;
         else
             step <= step + 1;
-    end
-
-    // let irdy trigger the calculation
-    if (irdy) begin
+    end else if (irdy) begin
         step <= 1;
     end
 end
