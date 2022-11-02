@@ -39,8 +39,8 @@ reg checker_checkrdy;
 wire checker_resultrdy;
 wire checker_matchfound;
 
-reg [2:0] next_hash_byte;
-reg [3:0] password_byte_index;
+reg [3:0] next_hash_byte;
+reg [4:0] password_byte_index;
 
 pwadder passadder(
     clk,
