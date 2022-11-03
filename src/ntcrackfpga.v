@@ -81,6 +81,10 @@ hashchecker hchecker(
     checker_matchfound);
 
 initial begin
+    match_found <= 0;
+    your_turn <= 0;
+    password_byte <= 0;
+
     state <= 0;
 
     password_chars <= 160'h2020202020202020202020202020202020202020;
@@ -227,7 +231,13 @@ always @ (posedge clk) begin
         // elaboration mode
         17: begin
             // prepare a character of the password
-            `MUX_READ_8_OF_160(password_chars, password_byte_index, password_byte);
+            if (password_byte_index == 20) begin
+                // send the length as the last byte
+                password_byte <= {3'h0, password_len};
+            end else begin
+                // send that byte of the password
+                `MUX_READ_8_OF_160(password_chars, password_byte_index, password_byte);
+            end
             state <= 18;
         end
         18: begin
@@ -245,7 +255,7 @@ always @ (posedge clk) begin
             end
         end
         20: begin
-            if (password_byte_index == 19) begin
+            if (password_byte_index == 20) begin
                 // this password is done; get on cracking
                 state <= 21;
             end else begin

@@ -11,7 +11,7 @@ wire my_turn;
 wire [7:0] password_byte;
 
 reg [7:0] state;
-reg [159:0] password;
+reg [167:0] password;
 
 ntcrackfpga cracker(
     clk,
@@ -100,7 +100,7 @@ end
     // next step at initial_time + 4
 
 
-always @ (posedge clk) begin
+always @ (posedge cracker.div_clk) begin
     // populate the following hashes:
     // md4(utf16le("12")) == md4("\x31\x00\x32\x00") == 588FEB889288FB953B5F094D47D1565C
     // md4(utf16le("!?")) == md4("\x21\x00\x3F\x00") == 91D533DC611AC2774431E2D0BAF36805
@@ -161,7 +161,10 @@ always @ (posedge clk) begin
         `STORE_PASSWORD_BYTE(237, 8)
         `STORE_PASSWORD_BYTE(241, 0)
 
-        245: begin
+        // and the length
+        `STORE_PASSWORD_BYTE(245, 160)
+
+        249: begin
             // spit out password
             $display("found: %x", password);
 
