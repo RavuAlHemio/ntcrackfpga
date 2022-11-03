@@ -7,7 +7,19 @@ module clockdiv(
     input fullclock,
     output reg divclock);
 
+`ifdef SIMULATION
+
+always #1 divclock = fullclock;
+
+`else
+
+// FIXME: use clockdiv on board
+
 reg [1:0] counter;
+
+initial begin
+    counter <= 0;
+end
 
 always @ (posedge fullclock) begin
     if (counter == 2) begin
@@ -18,5 +30,7 @@ always @ (posedge fullclock) begin
         divclock <= 0;
     end
 end
+
+`endif
 
 endmodule
