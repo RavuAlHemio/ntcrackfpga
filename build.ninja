@@ -30,7 +30,7 @@ build gen/inc/encodepwd.v: python3 genencode.py
 build gen/inc/muxes.v: python3 genmux.py
 build gen/inc/slice_equality.v: python3 genequality.py
 
-build ntcrackfpga.ic: iverilog src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/pwadder.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
+build ntcrackfpga.ic: iverilog src/clockdiv.v src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/pwadder.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
 
 build pwadder_test.ictest: iverilog src/pwadder.v src/tests/pwadder_test.v | gen/inc/slice_equality.v gen/inc/muxes.v
 build hashchecker_test.ictest: iverilog src/hashchecker.v src/tests/hashchecker_test.v | gen/inc/muxes.v
@@ -40,7 +40,7 @@ build ntcrackfpga_test.ictest: iverilog src/hashchecker.v src/md4block.v src/ntc
 # preprocessed files
 build ntcrackfpga_test.vpp: iverilogpp src/tests/ntcrackfpga_test.v
 
-build ntcrackfpga.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/pwadder.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
+build ntcrackfpga.json: yosys_ecp5 src/clockdiv.v src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/pwadder.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
     topmodule = ntcrackfpga
     yolog = ntcrackfpga_yosys.log
 build ntcrackfpga-pnr.txt: nextpnr_ecp5 ntcrackfpga.json
