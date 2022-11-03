@@ -1,7 +1,11 @@
+# I/O pin configuration for ECP5 Evaluation Board (LFE5UM5G-85F-EVN)
+
+# on-board crystal X2
 LOCATE COMP "clk" SITE "Y19";
 FREQUENCY PORT "clk" 200 MHZ;
 IOBUF PORT "clk" IO_TYPE=LVDS;
 
+# Versa J39 bottom row (pins 5, 7, 9, 11, 13, 15, 17, 19)
 LOCATE COMP "new_hash_byte[0]" SITE "B15";
 LOCATE COMP "new_hash_byte[1]" SITE "B13";
 LOCATE COMP "new_hash_byte[2]" SITE "D11";
@@ -19,21 +23,25 @@ IOBUF PORT "new_hash_byte[5]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[6]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[7]" IO_TYPE=LVCMOS33;
 
+# the following pins are on the Versa J39 top row
+
+# pin 4
 LOCATE COMP "store_hash_byte" SITE "D15";
 IOBUF PORT "store_hash_byte" IO_TYPE=LVCMOS33;
 
+# pin 6
 LOCATE COMP "go" SITE "C15";
 IOBUF PORT "go" IO_TYPE=LVCMOS33;
 
-LOCATE COMP "is_done" SITE "B20";
-IOBUF PORT "is_done" IO_TYPE=LVCMOS33;
-
+# pin 8
 LOCATE COMP "match_found" SITE "B20";
 IOBUF PORT "match_found" IO_TYPE=LVCMOS33;
 
+# pin 10
 LOCATE COMP "your_turn" SITE "E11";
 IOBUF PORT "your_turn" IO_TYPE=LVCMOS33;
 
+# Versa J40 bottom row (pins 1, 3, 5, 7, 9, 11, 13, 15)
 LOCATE COMP "password_byte[0]" SITE "K2";
 LOCATE COMP "password_byte[1]" SITE "A15";
 LOCATE COMP "password_byte[2]" SITE "H2";
