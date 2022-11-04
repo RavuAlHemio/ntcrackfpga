@@ -1,4 +1,5 @@
 [workspace]
 members = [
+    "ardzero",
     "atsamd21g18a",
 ]

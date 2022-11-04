@@ -3,6 +3,13 @@
 version = 3
 
 [[package]]
+name = "ardzero"
+version = "0.1.0"
+dependencies = [
+ "atsamd21g18a",
+]
+
+[[package]]
 name = "atsamd21g18a"
 version = "0.1.0"
 dependencies = [
