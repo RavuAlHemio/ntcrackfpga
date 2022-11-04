@@ -6,3 +6,5 @@
 
 pub mod calibration;
 pub mod init;
+pub mod pin;
+pub mod uart;

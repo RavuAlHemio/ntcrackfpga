@@ -159,6 +159,9 @@ fn clock_setup(peripherals: &mut Peripherals) {
     peripherals.PM.apbcsel.write(|w| w.apbcdiv().div1());
 }
 
+
+/// Calibrates the analog-digital converter from the values stored in one-time programmable memory
+/// during the manufacturing process.
 fn adc_calibration(peripherals: &mut Peripherals) {
     let bias = adc_bias_cal();
     let linearity = adc_linearity_cal();
