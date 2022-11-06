@@ -51,13 +51,13 @@ macro_rules! board_pin {
         })
     };
     (make_input, $peri:expr, $pinbank:ident, $pinnum:expr) => {
-        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].write(|w| w
-            .dirclr().set_bit() // equivalent to .dir().clear_bit() but no read-modify-write
+        board_pin!(pinbank_to_dirclr_reg, $peri.PORT, $pinbank).write(|w| w
+            .dirclr().variant(1 << $pinnum) // equivalent to .dir().clear_bit() but no read-modify-write
         )
     };
     (make_output, $peri:expr, $pinbank:ident, $pinnum:expr) => {
-        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].write(|w| w
-            .dirset().set_bit() // equivalent to .dir().set_bit() but no R-M-W
+        board_pin!(pinbank_to_dirset_reg, $peri.PORT, $pinbank).write(|w| w
+            .dirset().variant(1 << $pinnum) // equivalent to .dir().set_bit() but no R-M-W
         )
     };
     (enable_pull, $peri:expr, $pinbank:ident, $pinnum:expr) => {
@@ -94,4 +94,8 @@ macro_rules! board_pin {
     (pinbank_to_outset_reg, $port:expr, PB) => ($port.outset1);
     (pinbank_to_outclr_reg, $port:expr, PA) => ($port.outclr0);
     (pinbank_to_outclr_reg, $port:expr, PB) => ($port.outclr1);
+    (pinbank_to_dirset_reg, $port:expr, PA) => ($port.dirset0);
+    (pinbank_to_dirset_reg, $port:expr, PB) => ($port.dirset1);
+    (pinbank_to_dirclr_reg, $port:expr, PA) => ($port.dirclr0);
+    (pinbank_to_dirclr_reg, $port:expr, PB) => ($port.dirclr1);
 }
