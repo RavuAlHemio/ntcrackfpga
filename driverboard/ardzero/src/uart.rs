@@ -9,6 +9,8 @@ use crate::pin::PeripheralIndex;
 
 /// Performs the necessary setup to configure the UART (D0=RX, D1=TX) with 115200 b/s 8N1.
 ///
+/// The UART is configured on SERCOM0 since that matches the pinout of the Zero board.
+///
 /// (115200 bits per second, 8 bits per byte, no parity bit, 1 stop bit)
 ///
 /// | Arduino pin | SAMD21 pin | peripheral usage   | direction |
@@ -85,7 +87,7 @@ pub fn set_up(peripherals: &mut Peripherals) {
 }
 
 pub fn send(peripherals: &mut Peripherals, data: &[u8]) {
-    let usart0 = &peripherals.SERCOM0.usart();
+    let usart0 = peripherals.SERCOM0.usart();
 
     for b in data {
         // wait for buffer to empty
