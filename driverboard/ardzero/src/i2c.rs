@@ -1,7 +1,7 @@
 //! I<sup>2</sup>C (Inter-Integrated Circuit) interface.
 
 
-use atsamd21g18a::Peripherals;
+use atsamd21g18a::{Interrupt, Peripherals};
 
 use crate::board_pin;
 use crate::pin::PeripheralIndex;
@@ -165,8 +165,9 @@ pub fn read<F: FnMut(u8) -> bool>(peripherals: &mut Peripherals, target_address:
 
 /// Enables the triggering of the SERCOM3 interrupt when a byte is received.
 pub fn enable_receive_interrupt(peripherals: &mut Peripherals) {
-    let i2ch3 = peripherals.SERCOM3.i2cm();
+    unsafe { cortex_m::peripheral::NVIC::unmask(Interrupt::SERCOM3) };
 
+    let i2ch3 = peripherals.SERCOM3.i2cm();
     i2ch3.intenset.write(|w| w
         .sb().set_bit()
     );

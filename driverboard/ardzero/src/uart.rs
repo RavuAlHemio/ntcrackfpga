@@ -1,7 +1,7 @@
 //! UART (Universal Asynchronous Receiver/Transmitter) for communication with a host computer.
 
 
-use atsamd21g18a::Peripherals;
+use atsamd21g18a::{Interrupt, Peripherals};
 
 use crate::board_pin;
 use crate::pin::PeripheralIndex;
@@ -107,10 +107,12 @@ pub fn send(peripherals: &mut Peripherals, data: &[u8]) {
 }
 
 /// Enables the SERCOM0 interrupt to be raised when a byte is received.
+#[inline]
 pub fn enable_receive_interrupt(peripherals: &mut Peripherals) {
-    let usart0 = peripherals.SERCOM0.usart();
+    unsafe { cortex_m::peripheral::NVIC::unmask(Interrupt::SERCOM0) };
 
     // enable read interrupt
+    let usart0 = peripherals.SERCOM0.usart();
     usart0.intenset.modify(|_, w| w
         .rxc().set_bit()
     );
