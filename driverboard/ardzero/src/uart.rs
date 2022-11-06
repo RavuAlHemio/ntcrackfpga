@@ -58,11 +58,8 @@ pub fn set_up(peripherals: &mut Peripherals) {
         .txpo().variant(1) // transmit data on pad 2 (PA10) [no sync]
         .dord().set_bit() // LSB-first (specified in RS232) [no sync]
         .form().variant(0) // USART frames without parity [no sync]
-        .enable().set_bit() // enable the USART [synchronized]
+        .sampr().variant(0) // 16x oversampling, arithmetic baud rate [no sync]
     );
-    while usart0.ctrla.read().enable().bit_is_clear() || usart0.syncbusy.read().enable().bit_is_set() {
-    }
-
     usart0.ctrlb.modify(|_, w| w
         .chsize().variant(0) // 8 bits per byte [no sync]
         .sbmode().clear_bit() // one stop bit [no sync]
@@ -71,18 +68,25 @@ pub fn set_up(peripherals: &mut Peripherals) {
     // set baud rate
     // according to datasheet table 25-2 in § 25.6.2.3 (we are operating in async arithmetic)
     // baud_register = 65_536 * (1 - S * f_BAUD/f_ref)
-    //               = 65_536 * (1 - 8 * 115_200 / 48_000_000)
-    //               = 64_277.7088
+    //               = 65_536 * (1 - 16 * 115_200 / 48_000_000)
+    //               = 63_019.4176
     usart0.baud().modify(|_, w| w
-        .baud().variant(64_278)
+        .baud().variant(63_019)
     );
 
-    // start USART
+    // start it up
+    usart0.ctrla.modify(|_, w| w
+        .enable().set_bit() // enable the USART [synchronized]
+    );
+    while usart0.ctrla.read().enable().bit_is_clear() || usart0.syncbusy.read().enable().bit_is_set() {
+    }
+
+    // enable Tx and Rx
     usart0.ctrlb.modify(|_, w| w
         .rxen().set_bit() // enable Rx [synchronized]
         .txen().set_bit() // enable Tx [synchronized]
     );
-    while usart0.ctrlb.read().rxen().bit_is_clear() || usart0.ctrlb.read().txen().bit_is_clear() || usart0.syncbusy.read().ctrlb().bit_is_set() {
+    while usart0.ctrlb.read().txen().bit_is_clear() || usart0.ctrlb.read().rxen().bit_is_clear() || usart0.ctrlb.read().txen().bit_is_clear() || usart0.syncbusy.read().ctrlb().bit_is_set() {
     }
 }
 
