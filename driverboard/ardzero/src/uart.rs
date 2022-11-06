@@ -42,14 +42,14 @@ pub fn set_up(peripherals: &mut Peripherals) {
 
     // reset SERCOM0
     let usart0 = peripherals.SERCOM0.usart();
-    usart0.ctrla.write(|w| w
+    usart0.ctrla.modify(|_, w| w
         .swrst().set_bit() // software reset [synchronized]
     );
     while usart0.ctrla.read().swrst().bit_is_set() || usart0.syncbusy.read().swrst().bit_is_set() {
     }
 
     // basic USART setup
-    usart0.ctrla.write(|w| w
+    usart0.ctrla.modify(|_, w| w
         .mode().usart_int_clk() // set mode to USART [no sync]
         .cmode().clear_bit() // asynchronous communication [no sync]
         .rxpo().variant(3) // receive data on pad 3 (PA11) [no sync]
@@ -61,7 +61,7 @@ pub fn set_up(peripherals: &mut Peripherals) {
     while usart0.ctrla.read().enable().bit_is_clear() || usart0.syncbusy.read().enable().bit_is_set() {
     }
 
-    usart0.ctrlb.write(|w| w
+    usart0.ctrlb.modify(|_, w| w
         .chsize().variant(0) // 8 bits per byte [no sync]
         .sbmode().clear_bit() // one stop bit [no sync]
     );
@@ -71,12 +71,12 @@ pub fn set_up(peripherals: &mut Peripherals) {
     // baud_register = 65_536 * (1 - S * f_BAUD/f_ref)
     //               = 65_536 * (1 - 8 * 115_200 / 48_000_000)
     //               = 64_277.7088
-    usart0.baud().write(|w| w
+    usart0.baud().modify(|_, w| w
         .baud().variant(64_278)
     );
 
     // start USART
-    usart0.ctrlb.write(|w| w
+    usart0.ctrlb.modify(|_, w| w
         .rxen().set_bit() // enable Rx [synchronized]
         .txen().set_bit() // enable Tx [synchronized]
     );
