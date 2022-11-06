@@ -12,6 +12,7 @@ pub enum PeripheralIndex {
 }
 impl PeripheralIndex {
     /// Converts this peripheral index to the representation in the configuration registers.
+    #[inline]
     pub const fn to_nibble(&self) -> u8 {
         match self {
             Self::A => 0x0,
