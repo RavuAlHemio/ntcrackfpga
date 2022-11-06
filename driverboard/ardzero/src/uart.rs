@@ -106,6 +106,11 @@ pub fn send(peripherals: &mut Peripherals, data: &[u8]) {
     }
 }
 
+pub fn read_byte(peripherals: &mut Peripherals) -> u8 {
+    let usart0 = peripherals.SERCOM0.usart();
+    (usart0.data.read().data().bits() & 0xFF) as u8
+}
+
 /// Enables the SERCOM0 interrupt to be raised when a byte is received.
 #[inline]
 pub fn enable_receive_interrupt(peripherals: &mut Peripherals) {
@@ -116,4 +121,11 @@ pub fn enable_receive_interrupt(peripherals: &mut Peripherals) {
     usart0.intenset.modify(|_, w| w
         .rxc().set_bit()
     );
+}
+
+/// Returns whether the SERCOM0 interrupt was raised because a byte was received.
+#[inline]
+pub fn has_received_byte(peripherals: &mut Peripherals) -> bool {
+    let usart0 = peripherals.SERCOM0.usart();
+    usart0.intflag.read().rxc().bit_is_set()
 }
