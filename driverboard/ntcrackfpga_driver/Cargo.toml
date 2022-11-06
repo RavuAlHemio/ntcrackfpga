@@ -1,0 +1,8 @@
+[package]
+name = "ntcrackfpga_driver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ardzero = { path = "../ardzero" }
+atsamd21g18a = { path = "../atsamd21g18a" }
