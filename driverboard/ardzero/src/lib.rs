@@ -5,6 +5,7 @@
 
 
 pub mod calibration;
+pub mod i2c;
 pub mod init;
 pub mod pin;
 pub mod uart;
