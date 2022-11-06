@@ -73,13 +73,13 @@ macro_rules! board_pin {
         (board_pin!(pinbank_to_in_reg, $peri.PORT, $pinbank).read().bits() & (1 << $pinnum)) != 0
     };
     (set_high, $peri:expr, $pinbank:ident, $pinnum:expr) => {
-        board_pin!(pinbank_to_outset_reg, $peri.PORT, $pinbank)[$pinnum].write(|w| w
-            .outset().set_bit() // equivalent to .out().set_bit() but no R-M-W
+        board_pin!(pinbank_to_outset_reg, $peri.PORT, $pinbank).write(|w| w
+            .outset().variant(1 << $pinnum) // equivalent to .out().set_bit() but no R-M-W
         )
     };
     (set_low, $peri:expr, $pinbank:ident, $pinnum:expr) => {
-        board_pin!(pinbank_to_outclr_reg, $peri.PORT, $pinbank)[$pinnum].write(|w| w
-            .outclr().set_bit() // equivalent to .out().clear_bit() but no R-M-W
+        board_pin!(pinbank_to_outclr_reg, $peri.PORT, $pinbank).write(|w| w
+            .outclr().variant(1 << $pinnum) // equivalent to .out().clear_bit() but no R-M-W
         )
     };
 
