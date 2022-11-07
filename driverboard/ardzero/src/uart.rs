@@ -91,6 +91,10 @@ pub fn set_up(peripherals: &mut Peripherals) {
 }
 
 pub fn send(peripherals: &mut Peripherals, data: &[u8]) {
+    if data.len() == 0 {
+        return;
+    }
+
     let usart0 = peripherals.SERCOM0.usart();
 
     for b in data {
