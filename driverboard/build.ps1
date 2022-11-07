@@ -30,7 +30,7 @@ If (-not $NoBuild)
 }
 
 $kilobytes = (Get-Item -LiteralPath ".\$BinaryName.bin").Length / 1024
-Write-Output ("{0:#,##0.###} KiB" -f $kilobytes)
+Write-Output ("{0:#,##0.#} KiB" -f $kilobytes)
 
 If (-not $NoProgram)
 {
