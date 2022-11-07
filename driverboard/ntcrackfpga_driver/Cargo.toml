@@ -8,3 +8,4 @@ ardzero = { path = "../ardzero" }
 atsamd21g18a = { path = "../atsamd21g18a", features = ["critical-section", "rt"] }
 cortex-m = { version = "0.7", features = ["critical-section-single-core", "inline-asm"] }
 cortex-m-rt = { version = "0.7" }
+critical-section = { version = "1.0" }

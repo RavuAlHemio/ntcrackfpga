@@ -1,5 +1,6 @@
 use core::cmp::Ordering;
 use core::hash::{Hash, Hasher};
+use critical_section;
 
 
 #[derive(Clone, Copy, Debug)]
@@ -43,12 +44,30 @@ impl<const MAX_SIZE: usize> ByteBuffer<MAX_SIZE> {
         }
     }
 
+    #[inline]
     pub fn as_slice(&self) -> &[u8] {
         &self.bytes[0..self.len()]
     }
 
+    #[inline]
     pub fn clear(&mut self) {
         self.byte_count = 0;
+    }
+
+    /// Returns a copy of this buffer while emptying the original.
+    pub fn critical_take(&mut self) -> Self {
+        // we can allocate this outside of the critical section
+        let mut buf = [0u8; MAX_SIZE];
+        let new_buf = critical_section::with(|_| {
+            buf.copy_from_slice(&self.as_slice());
+            let nb = Self {
+                bytes: buf,
+                byte_count: self.byte_count,
+            };
+            self.byte_count = 0;
+            nb
+        });
+        new_buf
     }
 }
 impl<const MAX_SIZE: usize> PartialEq for ByteBuffer<MAX_SIZE> {

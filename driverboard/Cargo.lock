@@ -107,6 +107,7 @@ dependencies = [
  "atsamd21g18a",
  "cortex-m",
  "cortex-m-rt",
+ "critical-section",
 ]
 
 [[package]]
