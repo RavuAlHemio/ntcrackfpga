@@ -18,7 +18,7 @@ jobs:
       - name: obtain latest oss-cad-suite binaries for linux-x64
         uses: i3h/download-release-asset@v1
         with:
-          if: ${{ runner.arch == "X64" }}
+          if: ${{ runner.arch == X64 }}
           owner: YosysHQ
           repo: oss-cad-suite-build
           tag: latest
@@ -28,7 +28,7 @@ jobs:
       - name: obtain latest oss-cad-suite binaries for linux-arm64
         uses: i3h/download-release-asset@v1
         with:
-          if: ${{ runner.arch == "ARM64" }}
+          if: ${{ runner.arch == ARM64 }}
           owner: YosysHQ
           repo: oss-cad-suite-build
           tag: latest
