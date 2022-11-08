@@ -1,9 +1,9 @@
-iverilog = C:\\Development\\iverilog\\bin\\iverilog.exe
-iverilogvvp = C:\\Development\\iverilog\\bin\\vvp.exe
-python3 = C:\\Program Files\\Python310\\python.exe
-yosys = C:\\Development\\oss-cad-suite\\bin\\yosys.exe
-nextpnr_ecp5 = C:\\Development\\oss-cad-suite\\bin\\nextpnr-ecp5.exe
-ecppack = C:\\Development\\oss-cad-suite\\bin\\ecppack.exe
+iverilog = iverilog
+iverilogvvp = vvp
+python3 = python
+yosys = yosys
+nextpnr_ecp5 = nextpnr-ecp5
+ecppack = ecppack
 
 iveriflags = -D SIMULATION -Wall
 yoflags =
