@@ -41,7 +41,7 @@ jobs:
         # yes, the space between dot and slash is intended
         run: . /opt/oss-cad-suite/environment
       - name: run build
-        run: ninja build
+        run: ninja
       - name: upload bitstream
         uses: actions/upload-artifact@v2
         with:
