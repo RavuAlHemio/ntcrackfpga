@@ -110,7 +110,7 @@ initial begin
     your_turn <= 1;
 end
 
-always @ (posedge clk) begin
+always @ (posedge div_clk) begin
     case (state)
         // loading stage
         0: begin
