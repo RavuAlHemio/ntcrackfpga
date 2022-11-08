@@ -8,11 +8,11 @@ jobs:
       - name: update packages
         run: pacman -Syu --noconfirm
       - name: install packages
-        run: pacman -S --needed --noconfirm git iverilog ninja
+        run: pacman -S --needed --noconfirm git iverilog ninja python python-jinja
       - name: trust repo directory
         run: git config --global --add safe.directory /__w/ntcrackfpga/ntcrackfpga
       - name: check out repository code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: prepare oss-cad-suite directory
         run: mkdir -p /opt/oss-cad-suite/download
       - name: obtain latest oss-cad-suite binaries for linux-x64
@@ -37,13 +37,11 @@ jobs:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: extract oss-cad-suite
         run: tar -C /opt -xvf /opt/oss-cad-suite/download/oss-cad-suite-linux-*.tgz
-      - name: source environment file
-        # yes, the space between dot and slash is intended
-        run: . /opt/oss-cad-suite/environment
       - name: run build
-        run: ninja
+        # yes, the space between dot and slash is intended
+        run: '. /opt/oss-cad-suite/environment && ninja'
       - name: upload bitstream
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: |
             ntcrackfpga.svf
@@ -57,27 +55,23 @@ jobs:
       - name: install packages
         run: pacman -S --needed --noconfirm git rustup
       - name: install rust base installation
-        run: rustup
-      - name: include rust in environment
-        run: . ~/.cargo/env
+        run: rustup default stable
       - name: install rust toolchain for the Arduino Zero's microcontroller (SAMD21)
         run: rustup target add thumbv6m-none-eabi
       - name: install rust LLVM tools
         run: rustup component add llvm-tools-preview
       - name: install cargo-binutils
-        run: cargo install binutils
+        run: cargo install cargo-binutils
       - name: trust repo directory
         run: git config --global --add safe.directory /__w/ntcrackfpga/ntcrackfpga
       - name: check out repository code
-        uses: actions/checkout@v2
-      - name: switch directory
-        run: cd driverboard
+        uses: actions/checkout@v3
       - name: run build
-        run: cargo build --release
+        run: 'cd driverboard && cargo build --release'
       - name: convert ELF to raw binary
-        run: rust-objcopy --output-target=binary target/thumbv6m-none-eabi/release/ntcrackfpga_driver target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
+        run: ~/.cargo/bin/rust-objcopy --output-target=binary driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
       - name: upload binaries
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           path: |
             driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver
