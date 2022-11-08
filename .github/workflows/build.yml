@@ -17,7 +17,7 @@ jobs:
         run: mkdir -p /opt/oss-cad-suite/download
       - name: obtain latest oss-cad-suite binaries for linux-x64
         uses: i3h/download-release-asset@v1
-        if: ${{ runner.arch == X64 }}
+        if: '${{ runner.arch == "X64" }}'
         with:
           owner: YosysHQ
           repo: oss-cad-suite-build
@@ -27,7 +27,7 @@ jobs:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: obtain latest oss-cad-suite binaries for linux-arm64
         uses: i3h/download-release-asset@v1
-        if: ${{ runner.arch == ARM64 }}
+        if: '${{ runner.arch == "ARM64" }}'
         with:
           owner: YosysHQ
           repo: oss-cad-suite-build
