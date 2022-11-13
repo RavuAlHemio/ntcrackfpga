@@ -7,6 +7,9 @@ Param (
     $NoProgram,
 
     [switch]
+    $DebugBuild,
+
+    [switch]
     $Debugger,
 
     [string]
@@ -16,13 +19,22 @@ Param (
 
 If (-not $NoBuild)
 {
-    & cargo build --release
+    If ($DebugBuild)
+    {
+        & cargo build
+    }
+    Else
+    {
+        & cargo build --release
+    }
+
     If ($LASTEXITCODE -ne 0)
     {
         Return 1
     }
 
-    & rust-objcopy --output-target=binary ".\target\thumbv6m-none-eabi\release\$BinaryName" ".\$BinaryName.bin"
+    $mode = If ($DebugBuild) { "debug" } Else { "release" }
+    & rust-objcopy --output-target=binary ".\target\thumbv6m-none-eabi\$mode\$BinaryName" ".\$BinaryName.bin"
     If ($LASTEXITCODE -ne 0)
     {
         Return 1
