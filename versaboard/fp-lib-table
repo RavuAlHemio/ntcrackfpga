@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name "Connector_PinHeader_2.54mm_Horizontal_SMD")(type "KiCad")(uri "${KIPRJMOD}/Connector_PinHeader_2.54mm_Horizontal_SMD.pretty")(options "")(descr ""))
+  (lib (name "Button_Switch_SMD_Custom")(type "KiCad")(uri "${KIPRJMOD}/Button_Switch_SMD_Custom.pretty")(options "")(descr ""))
+)

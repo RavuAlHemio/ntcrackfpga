@@ -1,0 +1,11 @@
+SAM L21 Family Datasheet § 47.8.2
+
+C_{LOAD} = ([C_{XIN} + C_{LEXT}] * [C_{XOUT} + C_{LEXT}]) / ([C_{XIN} + C_{LEXT} + C_{LEXT} + C_{XOUT}]) + C_{STRAY}
+
+C_{XIN32} = 3.05pF
+C_{XOUT32} = 3.29pF
+C_{LOAD} = 12.5pF = capacitance as specified by crystal manufacturer
+C_{LEXT} = capacitance of one external load cap
+C_{STRAY} = 0F = PCB capacitance = 1.5pF per 12.5mm length with a trace width of 0.175mm
+
+C_LEXT = 21.83pF
