@@ -2953,7 +2953,7 @@
   (symbol (lib_id "Device:C_Small") (at 66.04 67.31 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 51baac91-df86-4110-b919-9139d7ff8cdd)
-    (property "Reference" "C9" (id 0) (at 66.0463 62.0481 90))
+    (property "Reference" "C8" (id 0) (at 66.0463 62.0481 90))
     (property "Value" "22pF" (id 1) (at 66.0463 64.585 90))
     (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 66.04 67.31 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3085,7 +3085,7 @@
   (symbol (lib_id "Device:C_Small") (at 66.04 74.93 90) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 6c31e4fd-257d-4d7c-933c-2839f0d41380)
-    (property "Reference" "C10" (id 0) (at 66.0463 78.5225 90))
+    (property "Reference" "C7" (id 0) (at 66.0463 78.5225 90))
     (property "Value" "22pF" (id 1) (at 66.0463 81.0594 90))
     (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (id 2) (at 66.04 74.93 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3166,7 +3166,7 @@
   (symbol (lib_id "Device:C") (at 43.18 151.13 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 7b0f8545-ffda-4d14-beb8-344e4fcf1147)
-    (property "Reference" "C8" (id 0) (at 46.101 150.2953 0)
+    (property "Reference" "C3" (id 0) (at 46.101 150.2953 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100pF" (id 1) (at 46.101 152.8322 0)
@@ -3340,7 +3340,7 @@
   (symbol (lib_id "Device:C_Small") (at 19.05 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid ba22a4b5-95b0-4de5-bced-f545f86d8229)
-    (property "Reference" "C1" (id 0) (at 21.3741 38.5416 0)
+    (property "Reference" "C10" (id 0) (at 21.3741 38.5416 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "10µF" (id 1) (at 21.3741 41.0785 0)
@@ -3362,7 +3362,7 @@
   (symbol (lib_id "Connector_Generic:Conn_01x02") (at 20.32 87.63 0) (mirror y) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid c6139276-1e28-4f65-895c-612087a5a2e2)
-    (property "Reference" "J3" (id 0) (at 20.32 82.6602 0))
+    (property "Reference" "J1" (id 0) (at 20.32 82.6602 0))
     (property "Value" "UART" (id 1) (at 20.32 85.1971 0))
     (property "Footprint" "Connector_PinHeader_2.54mm_Horizontal_SMD:Samtec_TSM-102-01-L-SH" (id 2) (at 20.32 87.63 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -3380,7 +3380,7 @@
   (symbol (lib_id "Device:C_Small") (at 39.37 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid cc683378-fbf8-420a-afab-c6a9069a0f20)
-    (property "Reference" "C3" (id 0) (at 41.6941 38.5416 0)
+    (property "Reference" "C1" (id 0) (at 41.6941 38.5416 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100nF" (id 1) (at 41.6941 41.0785 0)
@@ -3402,7 +3402,7 @@
   (symbol (lib_id "Device:C_Small") (at 62.23 39.37 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid d06f6168-2c46-4287-8dcf-019302173d6b)
-    (property "Reference" "C5" (id 0) (at 64.5541 38.5416 0)
+    (property "Reference" "C6" (id 0) (at 64.5541 38.5416 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "100nF" (id 1) (at 64.5541 41.0785 0)
@@ -3442,7 +3442,7 @@
   (symbol (lib_id "Device:C_Small") (at 72.39 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid e0f83ba9-d078-481f-957a-b544aee953b8)
-    (property "Reference" "C6" (id 0) (at 70.0659 47.4316 0)
+    (property "Reference" "C9" (id 0) (at 70.0659 47.4316 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "1µF" (id 1) (at 70.0659 49.9685 0)
@@ -3498,7 +3498,7 @@
   (symbol (lib_id "Device:C_Small") (at 83.82 48.26 0) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid f4c30170-e598-4fb7-8fad-ba1a06e429da)
-    (property "Reference" "C7" (id 0) (at 81.4959 47.4316 0)
+    (property "Reference" "C5" (id 0) (at 81.4959 47.4316 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Value" "100nF" (id 1) (at 81.4959 49.9685 0)
@@ -3571,41 +3571,41 @@
     (path "/31c43e89-6a40-4084-9653-f32d9d92f6d8"
       (reference "#PWR011") (unit 1) (value "GND") (footprint "")
     )
-    (path "/ba22a4b5-95b0-4de5-bced-f545f86d8229"
-      (reference "C1") (unit 1) (value "10µF") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    (path "/cc683378-fbf8-420a-afab-c6a9069a0f20"
+      (reference "C1") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/a7e945e6-c1a1-4716-b3f8-ea9ce2bf633f"
       (reference "C2") (unit 1) (value "10µF") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
-    (path "/cc683378-fbf8-420a-afab-c6a9069a0f20"
-      (reference "C3") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+    (path "/7b0f8545-ffda-4d14-beb8-344e4fcf1147"
+      (reference "C3") (unit 1) (value "100pF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/2e487413-87bd-4d87-b2ac-edcaab79cdeb"
       (reference "C4") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
-    (path "/d06f6168-2c46-4287-8dcf-019302173d6b"
+    (path "/f4c30170-e598-4fb7-8fad-ba1a06e429da"
       (reference "C5") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
-    (path "/e0f83ba9-d078-481f-957a-b544aee953b8"
-      (reference "C6") (unit 1) (value "1µF") (footprint "Capacitor_SMD:C_0402_1005Metric")
-    )
-    (path "/f4c30170-e598-4fb7-8fad-ba1a06e429da"
-      (reference "C7") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
-    )
-    (path "/7b0f8545-ffda-4d14-beb8-344e4fcf1147"
-      (reference "C8") (unit 1) (value "100pF") (footprint "Capacitor_SMD:C_0402_1005Metric")
-    )
-    (path "/51baac91-df86-4110-b919-9139d7ff8cdd"
-      (reference "C9") (unit 1) (value "22pF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+    (path "/d06f6168-2c46-4287-8dcf-019302173d6b"
+      (reference "C6") (unit 1) (value "100nF") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
     (path "/6c31e4fd-257d-4d7c-933c-2839f0d41380"
-      (reference "C10") (unit 1) (value "22pF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+      (reference "C7") (unit 1) (value "22pF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+    )
+    (path "/51baac91-df86-4110-b919-9139d7ff8cdd"
+      (reference "C8") (unit 1) (value "22pF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+    )
+    (path "/e0f83ba9-d078-481f-957a-b544aee953b8"
+      (reference "C9") (unit 1) (value "1µF") (footprint "Capacitor_SMD:C_0402_1005Metric")
+    )
+    (path "/ba22a4b5-95b0-4de5-bced-f545f86d8229"
+      (reference "C10") (unit 1) (value "10µF") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
     (path "/6ec904da-9876-48ea-a365-c0d5d54818df"
       (reference "D1") (unit 1) (value "LED") (footprint "LED_SMD:LED_0603_1608Metric")
     )
     (path "/c6139276-1e28-4f65-895c-612087a5a2e2"
-      (reference "J3") (unit 1) (value "UART") (footprint "Connector_PinHeader_2.54mm_Horizontal_SMD:Samtec_TSM-102-01-L-SH")
+      (reference "J1") (unit 1) (value "UART") (footprint "Connector_PinHeader_2.54mm_Horizontal_SMD:Samtec_TSM-102-01-L-SH")
     )
     (path "/70edb921-d540-409b-a2bc-8cb5d54d65a6"
       (reference "J4") (unit 1) (value "DBG") (footprint "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical_SMD")
