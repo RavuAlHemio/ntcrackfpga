@@ -1698,7 +1698,7 @@
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 6444a609-c339-432a-a9af-4179bc49d8fe)
     )
-    (fp_text value "ATSAML21G18B-AUT" (at 0 5.85 -90) (layer "F.Fab") hide
+    (fp_text value "ATSAML21G18B-AUT" (at 8.5 -9.613) (layer "F.Fab")
       (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 80c5f194-1195-4c02-9dd4-fcec32e8e07c)
     )
