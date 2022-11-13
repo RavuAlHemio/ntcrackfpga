@@ -59,7 +59,7 @@ impl CrackState {
 
 #[panic_handler]
 fn panic_handler(_why: &PanicInfo) -> ! {
-    const NOP_COUNT: usize = 16;
+    const NOP_COUNT: usize = 0xFFFFF;
 
     // set A17 (built-in LED) to output
     let mut peripherals = unsafe { Peripherals::steal() };
@@ -71,15 +71,11 @@ fn panic_handler(_why: &PanicInfo) -> ! {
 
         board_pin!(set_high, &mut peripherals, PA, 17);
 
-        for _ in 0..NOP_COUNT {
-            nop();
-        }
+        sleepiness();
 
         board_pin!(set_low, &mut peripherals, PA, 17);
 
-        for _ in 0..NOP_COUNT {
-            nop();
-        }
+        sleepiness();
     }
 }
 
@@ -104,6 +100,12 @@ fn hex_to_nibble(hex: u8) -> u8 {
         b'A'..=b'F' => hex - b'A' + 0xA,
         b'a'..=b'f' => hex - b'a' + 0xA,
         _ => 0xFF,
+    }
+}
+
+fn sleepiness() {
+    for _ in 0..0xFFFFF {
+        nop();
     }
 }
 
@@ -341,6 +343,9 @@ fn main() -> ! {
                     // pull "store_hash_byte" high
                     expander.write_pins(&mut peripherals, EXPANDER_STORE_HASH_BYTE_PIN, &[true]);
 
+                    // give it a sec
+                    sleepiness();
+
                     // pull "store_hash_byte" low
                     expander.write_pins(&mut peripherals, EXPANDER_STORE_HASH_BYTE_PIN, &[false]);
 
@@ -372,6 +377,9 @@ fn main() -> ! {
 
                     // pull "go" high
                     expander.write_pins(&mut peripherals, EXPANDER_GO_PIN, &[true]);
+
+                    // give it a sec
+                    sleepiness();
 
                     // pull "go" low
                     expander.write_pins(&mut peripherals, EXPANDER_GO_PIN, &[false]);
