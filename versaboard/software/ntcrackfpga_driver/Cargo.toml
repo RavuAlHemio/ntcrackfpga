@@ -1,0 +1,11 @@
+[package]
+name = "ntcrackfpga_driver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+atsaml21g18b = { path = "../atsaml21g18b", features = ["critical-section", "rt"] }
+cortex-m = { version = "0.7", features = ["critical-section-single-core", "inline-asm"] }
+cortex-m-rt = { version = "0.7" }
+critical-section = { version = "1.0" }
+ntcrackfpga_versaboard = { path = "../ntcrackfpga_versaboard" }

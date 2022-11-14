@@ -1,0 +1,8 @@
+[package]
+name = "ntcrackfpga_versaboard"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+atsaml21g18b = { path = "../atsaml21g18b", features = ["rt"] }
+cortex-m = { version = "0.7" }

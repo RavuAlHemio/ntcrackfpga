@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "atsaml21g18b",
+    "ntcrackfpga_driver",
+    "ntcrackfpga_versaboard",
+]
