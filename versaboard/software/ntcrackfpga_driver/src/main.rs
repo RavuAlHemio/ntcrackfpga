@@ -206,7 +206,7 @@ fn main() -> ! {
                             }
                         } else if buf_slice == b"g" {
                             let mut bad = false;
-                            if !bad && !state.may_input_hashes() {
+                            if !bad && !state.may_go() {
                                 uart::send(&mut peripherals, b"\r\nCracking cannot be started in the current state.");
                                 bad = true;
                             }
