@@ -13,7 +13,6 @@ use cortex_m_rt::entry;
 use ntcrackfpga_versaboard::{board_pin, uart};
 
 use crate::byte_buffer::ByteBuffer;
-use crate::max7300::{Max7300, PinBankConfig, PinConfig};
 
 const HASH_LENGTH: usize = 16;
 const PASSWORD_LENGTH: usize = 20;
@@ -91,6 +90,37 @@ fn sleepiness() {
     for _ in 0..0xFFFFF {
         nop();
     }
+}
+
+fn set_new_hash_byte(peripherals: &mut Peripherals, byte: u8) {
+    // bit 0 = PA08, ... bit 7 = PA15
+    const BIT_OFFSET: u32 = 8;
+
+    let mut set_bits: u32 = 0;
+    let mut clear_bits: u32 = 0;
+
+    for i in 0..8 {
+        if byte & (1 << i) == 0 {
+            clear_bits |= 1 << (BIT_OFFSET + i);
+        } else {
+            set_bits |= 1 << (BIT_OFFSET + i);
+        }
+    }
+
+    peripherals.PORT.outset0.write(|w| w
+        .outset().variant(set_bits)
+    );
+    peripherals.PORT.outclr0.write(|w| w
+        .outclr().variant(clear_bits)
+    );
+}
+
+#[inline]
+fn get_password_byte(peripherals: &mut Peripherals) -> u8 {
+    // bit 0 = PA16, ... bit 7 = PA23
+    const BIT_OFFSET: u32 = 16;
+
+    ((board_pin!(read_pins, peripherals, PA) >> BIT_OFFSET) & 0xFF).try_into().unwrap()
 }
 
 #[entry]
@@ -213,10 +243,13 @@ fn main() -> ! {
 
                             if !bad {
                                 // pull "go" high
-                                expander.write_pins(&mut peripherals, EXPANDER_GO_PIN, &[true]);
+                                board_pin!(set_high, &mut peripherals, PB, 9);
+
+                                // wait a bit
+                                sleepiness();
 
                                 // pull "go" low
-                                expander.write_pins(&mut peripherals, EXPANDER_GO_PIN, &[false]);
+                                board_pin!(set_low, &mut peripherals, PB, 9);
 
                                 state = CrackState::Cracking;
                                 uart::send(&mut peripherals, b"\r\nCracking started.");
@@ -280,27 +313,23 @@ fn main() -> ! {
             }
         }
 
-        // anything to do over I2C?
-        let my_turn = expander.read_pin(&mut peripherals, EXPANDER_YOUR_TURN_PIN);
+        // anything to do with the FPGA?
+        let my_turn = board_pin!(read_pin, &mut peripherals, PA, 7);
         if my_turn {
             match state {
                 CrackState::SendingHash => {
                     // set new_hash_byte
-                    expander.write_pin_bank(
-                        &mut peripherals,
-                        EXPANDER_NEW_HASH_BYTE_FIRST_PIN,
-                        hash_buffer[current_index],
-                    );
+                    set_new_hash_byte(&mut peripherals, hash_buffer[current_index]);
                     current_index += 1;
 
                     // pull "store_hash_byte" high
-                    expander.write_pins(&mut peripherals, EXPANDER_STORE_HASH_BYTE_PIN, &[true]);
+                    board_pin!(set_high, &mut peripherals, PB, 8);
 
                     // give it a sec
                     sleepiness();
 
                     // pull "store_hash_byte" low
-                    expander.write_pins(&mut peripherals, EXPANDER_STORE_HASH_BYTE_PIN, &[false]);
+                    board_pin!(set_low, &mut peripherals, PB, 8);
 
                     if current_index == HASH_LENGTH {
                         // full hash transmitted; we're idle again
@@ -310,10 +339,7 @@ fn main() -> ! {
                 },
                 CrackState::PasswordOutput => {
                     // read password_byte
-                    password_buffer[current_index] = expander.read_pin_bank(
-                        &mut peripherals,
-                        EXPANDER_PASSWORD_BYTE_FIRST_PIN,
-                    );
+                    password_buffer[current_index] = get_password_byte(&mut peripherals);
                     current_index += 1;
 
                     if current_index == PASSWORD_LENGTH + 2 {
@@ -329,17 +355,17 @@ fn main() -> ! {
                     }
 
                     // pull "go" high
-                    expander.write_pins(&mut peripherals, EXPANDER_GO_PIN, &[true]);
+                    board_pin!(set_high, &mut peripherals, PB, 9);
 
                     // give it a sec
                     sleepiness();
 
                     // pull "go" low
-                    expander.write_pins(&mut peripherals, EXPANDER_GO_PIN, &[false]);
+                    board_pin!(set_low, &mut peripherals, PB, 9);
                 },
                 CrackState::Cracking => {
                     // ooh, a state change
-                    let match_found = expander.read_pin(&mut peripherals, EXPANDER_MATCH_FOUND_PIN);
+                    let match_found = board_pin!(read_pin, &mut peripherals, PA, 6);
                     state = if match_found {
                         CrackState::PasswordOutput
                     } else {
@@ -358,7 +384,7 @@ fn main() -> ! {
 #[interrupt]
 fn SERCOM0() {
     let mut peripherals = unsafe { Peripherals::steal() };
-    board_pin!(set_low, peripherals, PA, 17);
+    board_pin!(set_low, peripherals, PA, 24);
     if !uart::has_received_byte(&mut peripherals) {
         return;
     }
