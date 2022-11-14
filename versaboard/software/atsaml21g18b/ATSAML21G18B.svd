@@ -5815,54 +5815,6 @@
               <bitOffset>2</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL0Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL1</name>
@@ -5870,54 +5822,6 @@
               <bitOffset>3</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL1Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL2</name>
@@ -5925,54 +5829,6 @@
               <bitOffset>4</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL2Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL3</name>
@@ -5980,54 +5836,6 @@
               <bitOffset>5</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL3Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL4</name>
@@ -6035,54 +5843,6 @@
               <bitOffset>6</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL4Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL5</name>
@@ -6090,54 +5850,6 @@
               <bitOffset>7</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL5Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL6</name>
@@ -6145,54 +5857,6 @@
               <bitOffset>8</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL6Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL7</name>
@@ -6200,54 +5864,6 @@
               <bitOffset>9</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL7Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
             <field>
               <name>GENCTRL8</name>
@@ -6255,54 +5871,6 @@
               <bitOffset>10</bitOffset>
               <bitWidth>1</bitWidth>
               <access>read-only</access>
-              <enumeratedValues>
-                <name>GENCTRL8Select</name>
-                <enumeratedValue>
-                  <name>GCLK0</name>
-                  <description>Generic clock generator 0</description>
-                  <value>0x1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK1</name>
-                  <description>Generic clock generator 1</description>
-                  <value>0x2</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK2</name>
-                  <description>Generic clock generator 2</description>
-                  <value>0x4</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK3</name>
-                  <description>Generic clock generator 3</description>
-                  <value>0x8</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK4</name>
-                  <description>Generic clock generator 4</description>
-                  <value>0x10</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK5</name>
-                  <description>Generic clock generator 5</description>
-                  <value>0x20</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK6</name>
-                  <description>Generic clock generator 6</description>
-                  <value>0x40</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK7</name>
-                  <description>Generic clock generator 7</description>
-                  <value>0x80</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>GCLK8</name>
-                  <description>Generic clock generator 8</description>
-                  <value>0x100</value>
-                </enumeratedValue>
-              </enumeratedValues>
             </field>
           </fields>
         </register>
