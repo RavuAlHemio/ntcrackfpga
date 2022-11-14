@@ -46,7 +46,7 @@ jobs:
           path: |
             ntcrackfpga.svf
             ntcrackfpga.bit
-  build-driver:
+  build-arduino-zero-driver:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
     steps:
@@ -67,15 +67,15 @@ jobs:
       - name: check out repository code
         uses: actions/checkout@v3
       - name: run build
-        run: 'cd driverboard && cargo build --release'
+        run: 'cd driverboard_arduino_zero && cargo build --release'
       - name: convert ELF to raw binary
-        run: ~/.cargo/bin/rust-objcopy --output-target=binary driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
+        run: ~/.cargo/bin/rust-objcopy --output-target=binary driverboard_arduino_zero/target/thumbv6m-none-eabi/release/ntcrackfpga_driver driverboard_arduino_zero/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
       - name: upload binaries
         uses: actions/upload-artifact@v3
         with:
           path: |
-            driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver
-            driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
+            driverboard_arduino_zero/target/thumbv6m-none-eabi/release/ntcrackfpga_driver
+            driverboard_arduino_zero/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
   build-versaboard-driver:
     runs-on: ubuntu-latest
     container: archlinux:base-devel
