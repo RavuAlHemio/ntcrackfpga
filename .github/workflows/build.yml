@@ -76,3 +76,33 @@ jobs:
           path: |
             driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver
             driverboard/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
+  build-versaboard-driver:
+    runs-on: ubuntu-latest
+    container: archlinux:base-devel
+    steps:
+      - name: update packages
+        run: pacman -Syu --noconfirm
+      - name: install packages
+        run: pacman -S --needed --noconfirm git rustup
+      - name: install rust base installation
+        run: rustup default stable
+      - name: install rust toolchain for the Versaboard's microcontroller (SAML21)
+        run: rustup target add thumbv6m-none-eabi
+      - name: install rust LLVM tools
+        run: rustup component add llvm-tools-preview
+      - name: install cargo-binutils
+        run: cargo install cargo-binutils
+      - name: trust repo directory
+        run: git config --global --add safe.directory /__w/ntcrackfpga/ntcrackfpga
+      - name: check out repository code
+        uses: actions/checkout@v3
+      - name: run build
+        run: 'cd versaboard/software && cargo build --release'
+      - name: convert ELF to raw binary
+        run: ~/.cargo/bin/rust-objcopy --output-target=binary versaboard/software/target/thumbv6m-none-eabi/release/ntcrackfpga_driver versaboard/software/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
+      - name: upload binaries
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            versaboard/software/target/thumbv6m-none-eabi/release/ntcrackfpga_driver
+            versaboard/software/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
