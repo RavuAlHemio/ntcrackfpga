@@ -15,30 +15,33 @@ use crate::pin::PeripheralIndex;
 ///
 /// | SAML21 pin | peripheral usage   | direction |
 /// | ---------- | ------------------ | --------- |
-/// | PA04       | SERCOM0/PAD[0] (D) | RX        |
-/// | PA05       | SERCOM0/PAD[0] (D) | TX        |
+/// | PA04       | SERCOM0/PAD[0] (D) | TX        |
+/// | PA05       | SERCOM0/PAD[1] (D) | RX        |
 pub fn set_up(peripherals: &mut Peripherals) {
-    todo!("convert this from D21 to L21");
-
     // enable SERCOM0 core clock (use GCLK0 = 48MHz)
-    peripherals.GCLK.clkctrl.write(|w| w
-        .id().sercom0_core()
+    // index taken from datasheet § 17.10.4 (table 17-9)
+    const PCHCTRL_SERCOM0_CORE: usize = 17;
+    peripherals.GCLK.pchctrl[PCHCTRL_SERCOM0_CORE].write(|w| w
         .gen().gclk0()
-        .clken().set_bit()
+        .chen().set_bit()
     );
-    while peripherals.GCLK.status.read().syncbusy().bit_is_set() {
+    // readback synchronization (datasheet § 17.6.3)
+    while peripherals.GCLK.pchctrl[PCHCTRL_SERCOM0_CORE].read().chen().bit_is_clear() {
     }
 
+    // slow clock is not needed for UART
+    // (only for I2C controller [formerly master], if I recall correctly)
+
     // enable SERCOM0 bus clock
-    peripherals.PM.apbcmask.modify(|_, w| w
+    peripherals.MCLK.apbcmask.modify(|_, w| w
         .sercom0_().set_bit()
     );
 
     // hand over pins to SERCOM0
-    board_pin!(set_peripheral, peripherals, PA, 10);
-    board_pin!(set_peripheral, peripherals, PA, 11);
-    board_pin!(select_peripheral, peripherals, PA, 10, PeripheralIndex::C);
-    board_pin!(select_peripheral, peripherals, PA, 11, PeripheralIndex::C);
+    board_pin!(set_peripheral, peripherals, PA, 4);
+    board_pin!(set_peripheral, peripherals, PA, 5);
+    board_pin!(select_peripheral, peripherals, PA, 4, PeripheralIndex::D);
+    board_pin!(select_peripheral, peripherals, PA, 5, PeripheralIndex::D);
 
     // some of the following operations require synchronization
     // (i.e. waiting for the peripheral to accept the changes)
@@ -54,10 +57,10 @@ pub fn set_up(peripherals: &mut Peripherals) {
 
     // basic USART setup
     usart0.ctrla.modify(|_, w| w
-        .mode().usart_int_clk() // set mode to USART [no sync]
+        .mode().variant(0x1) // set mode to USART with internal clock [no sync]
         .cmode().clear_bit() // asynchronous communication [no sync]
-        .rxpo().variant(3) // receive data on pad 3 (PA11) [no sync]
-        .txpo().variant(1) // transmit data on pad 2 (PA10) [no sync]
+        .rxpo().variant(1) // receive data on pad 1 (PA05) [no sync]
+        .txpo().variant(0) // transmit data on pad 0 (PA04) [no sync]
         .dord().set_bit() // LSB-first (specified in RS232) [no sync]
         .form().variant(0) // USART frames without parity [no sync]
         .sampr().variant(0) // 16x oversampling, arithmetic baud rate [no sync]
@@ -88,7 +91,7 @@ pub fn set_up(peripherals: &mut Peripherals) {
         .rxen().set_bit() // enable Rx [synchronized]
         .txen().set_bit() // enable Tx [synchronized]
     );
-    while usart0.ctrlb.read().txen().bit_is_clear() || usart0.ctrlb.read().rxen().bit_is_clear() || usart0.ctrlb.read().txen().bit_is_clear() || usart0.syncbusy.read().ctrlb().bit_is_set() {
+    while usart0.ctrlb.read().txen().bit_is_clear() || usart0.ctrlb.read().rxen().bit_is_clear() || usart0.syncbusy.read().ctrlb().bit_is_set() {
     }
 }
 

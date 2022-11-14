@@ -68,6 +68,7 @@ fn clock_setup(peripherals: &mut Peripherals) {
     // step 3
 
     // set GCG1 as source of DFLL48M (Digital Frequency Locked Loop, 48 MHz)
+    // index taken from datasheet § 17.10.4 (table 17-9)
     const PCHCTRL_DFLL48M_REF: usize = 0;
     peripherals.GCLK.pchctrl[PCHCTRL_DFLL48M_REF].modify(|_, w| w
         .gen().gclk1() // set GCG1 as source

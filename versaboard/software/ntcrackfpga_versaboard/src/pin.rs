@@ -1,6 +1,3 @@
-// TODO: convert from SAMD21 to SAML21
-
-
 #[derive(Clone, Copy, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum PeripheralIndex {
     A,
