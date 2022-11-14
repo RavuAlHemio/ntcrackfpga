@@ -3,27 +3,17 @@
 
 
 mod byte_buffer;
-mod max7300;
 
 
 use core::panic::PanicInfo;
 
-use ardzero::{board_pin, uart};
 use atsaml21g18b::{interrupt, Peripherals};
 use cortex_m::asm::nop;
 use cortex_m_rt::entry;
+use ntcrackfpga_versaboard::{board_pin, uart};
 
 use crate::byte_buffer::ByteBuffer;
 use crate::max7300::{Max7300, PinBankConfig, PinConfig};
-
-
-const EXPANDER_I2C_ADDR: u8 = 0b1000101;
-const EXPANDER_STORE_HASH_BYTE_PIN: u8 = 4;
-const EXPANDER_GO_PIN: u8 = 5;
-const EXPANDER_MATCH_FOUND_PIN: u8 = 6;
-const EXPANDER_YOUR_TURN_PIN: u8 = 6;
-const EXPANDER_NEW_HASH_BYTE_FIRST_PIN: u8 = 8;
-const EXPANDER_PASSWORD_BYTE_FIRST_PIN: u8 = 16;
 
 const HASH_LENGTH: usize = 16;
 const PASSWORD_LENGTH: usize = 20;
@@ -59,22 +49,16 @@ impl CrackState {
 
 #[panic_handler]
 fn panic_handler(_why: &PanicInfo) -> ! {
-    const NOP_COUNT: usize = 0xFFFFF;
-
-    // set A17 (built-in LED) to output
+    // set PA24 (on-board LED) to output
     let mut peripherals = unsafe { Peripherals::steal() };
-    board_pin!(set_io, &mut peripherals, PA, 17);
-    board_pin!(make_output, &mut peripherals, PA, 17);
+    board_pin!(set_io, &mut peripherals, PA, 24);
+    board_pin!(make_output, &mut peripherals, PA, 24);
 
     loop {
         // make blink
-
-        board_pin!(set_high, &mut peripherals, PA, 17);
-
+        board_pin!(set_high, &mut peripherals, PA, 24);
         sleepiness();
-
-        board_pin!(set_low, &mut peripherals, PA, 17);
-
+        board_pin!(set_low, &mut peripherals, PA, 24);
         sleepiness();
     }
 }
@@ -115,59 +99,28 @@ fn main() -> ! {
         .expect("failed to obtain peripherals");
 
     // set up chip
-    ardzero::init::initialize(&mut peripherals);
+    ntcrackfpga_versaboard::init::initialize(&mut peripherals);
 
-    board_pin!(set_io, &mut peripherals, PA, 17);
-    board_pin!(make_output, &mut peripherals, PA, 17);
-    board_pin!(set_high, &mut peripherals, PA, 17);
+    // turn on LED
+    board_pin!(set_io, &mut peripherals, PA, 24);
+    board_pin!(make_output, &mut peripherals, PA, 24);
+    board_pin!(set_high, &mut peripherals, PA, 24);
+
+    // set up I/O pins fo FPGA communication
+    board_pin!(set_io, &mut peripherals, PA, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
+    board_pin!(set_io, &mut peripherals, PB, 8, 9);
+
+    board_pin!(set_low, &mut peripherals, PA, 8, 9, 10, 11, 12, 13, 14, 15);
+    board_pin!(set_low, &mut peripherals, PB, 8, 9);
+    board_pin!(disable_pull, &mut peripherals, PA, 6, 7, 16, 17, 18, 19, 20, 21, 22, 23);
+
+    board_pin!(make_output, &mut peripherals, PA, 8, 9, 10, 11, 12, 13, 14, 15);
+    board_pin!(make_output, &mut peripherals, PB, 8, 9);
+    board_pin!(make_input, &mut peripherals, PA, 6, 7, 16, 17, 18, 19, 20, 21, 22, 23);
 
     // set up UART for communicating with host, including interrupt
     uart::set_up(&mut peripherals);
     uart::enable_receive_interrupt(&mut peripherals);
-
-    // set up I2C for communicating with port expander (Mikroe Expand 12 Click/MAX7300)
-    ardzero::i2c::set_up_host(&mut peripherals);
-
-    // configure I2C expander
-    let expander = Max7300::new(EXPANDER_I2C_ADDR);
-    expander.config(
-        &mut peripherals,
-        true, // power on
-        false, // no transition detection
-    );
-    expander.write_pins(
-        &mut peripherals,
-        EXPANDER_STORE_HASH_BYTE_PIN, // start at pin 4
-        &[
-            true, // 4 (store_hash_byte)
-            false, // 5 (go)
-        ],
-    );
-    expander.write_pin_bank(
-        &mut peripherals,
-        EXPANDER_NEW_HASH_BYTE_FIRST_PIN, // set pin bank 8(-15)
-        0x00, // new_hash_byte
-    );
-    let out_out_in_in = PinBankConfig::new(
-        PinConfig::Output, PinConfig::Output, PinConfig::InputFloating, PinConfig::InputFloating,
-    );
-    let out_out_out_out = PinBankConfig::new(
-        PinConfig::Output, PinConfig::Output, PinConfig::Output, PinConfig::Output,
-    );
-    let in_in_in_in = PinBankConfig::new(
-        PinConfig::InputFloating, PinConfig::InputFloating, PinConfig::InputFloating, PinConfig::InputFloating,
-    );
-    expander.config_pins(
-        &mut peripherals,
-        1, // start at index 1 (pins 4-7)
-        &[
-            out_out_in_in, // ports 4, 5, 6, 7
-            out_out_out_out, // ports 8, 9, 10, 11
-            out_out_out_out, // ports 12, 13, 14, 15
-            in_in_in_in, // ports 16, 17, 18, 19
-            in_in_in_in, // ports 20, 21, 22, 23
-        ],
-    );
 
     uart::send(&mut peripherals, b"\r\nntcrackfpga driver\r\n>");
 
