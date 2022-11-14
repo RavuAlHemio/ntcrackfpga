@@ -38,10 +38,8 @@ pub fn set_up(peripherals: &mut Peripherals) {
     );
 
     // hand over pins to SERCOM0
-    board_pin!(set_peripheral, peripherals, PA, 4);
-    board_pin!(set_peripheral, peripherals, PA, 5);
-    board_pin!(select_peripheral, peripherals, PeripheralIndex::D, PA, 4);
-    board_pin!(select_peripheral, peripherals, PeripheralIndex::D, PA, 5);
+    board_pin!(set_peripheral, peripherals, PA, 4, 5);
+    board_pin!(select_peripheral, peripherals, PeripheralIndex::D, PA, 4, 5);
 
     // some of the following operations require synchronization
     // (i.e. waiting for the peripheral to accept the changes)
