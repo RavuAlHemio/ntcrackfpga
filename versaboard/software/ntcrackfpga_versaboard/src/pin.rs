@@ -31,7 +31,10 @@ impl PeripheralIndex {
 
 #[macro_export]
 macro_rules! board_pin {
-    (set_io, $peri:expr, $pinbank:ident $(, $pinnum:expr)*) => {
+    (set_io, $peri:expr, $pinbank:ident, $firstpin:expr $(, $pinnum:expr)*) => {
+        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$firstpin].modify(|_, w| w
+            .pmuxen().clear_bit()
+        )
         $(
             ;
             board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
@@ -39,7 +42,10 @@ macro_rules! board_pin {
             )
         )*
     };
-    (set_peripheral, $peri:expr, $pinbank:ident $(, $pinnum:expr)*) => {
+    (set_peripheral, $peri:expr, $pinbank:ident, $firstpin:expr $(, $pinnum:expr)*) => {
+        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$firstpin].modify(|_, w| w
+            .pmuxen().set_bit()
+        )
         $(
             ;
             board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
@@ -47,7 +53,14 @@ macro_rules! board_pin {
             )
         )*
     };
-    (select_peripheral, $peri:expr, $periindex:expr, $pinbank:ident $(, $pinnum:expr)*) => {
+    (select_peripheral, $peri:expr, $periindex:expr, $pinbank:ident, $firstpin:expr $(, $pinnum:expr)*) => {
+        board_pin!(pinbank_to_mux_reg, $peri.PORT, $pinbank)[$firstpin / 2].modify(|_, w| {
+            if $firstpin % 2 == 0 {
+                unsafe { w.pmuxe().bits($periindex.to_nibble()) }
+            } else {
+                unsafe { w.pmuxo().bits($periindex.to_nibble()) }
+            }
+        })
         $(
             ;
             board_pin!(pinbank_to_mux_reg, $peri.PORT, $pinbank)[$pinnum / 2].modify(|_, w| {
@@ -69,18 +82,33 @@ macro_rules! board_pin {
             .dirset().variant(board_pin!(@bitmasking, 0 $(, $pinnum)+)) // equivalent to .dir().set_bit() but no R-M-W
         )
     };
-    (enable_pull, $peri:expr, $pinbank:ident, $pinnum:expr) => {
-        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
+    (enable_pull, $peri:expr, $pinbank:ident, $firstpin:expr $(, $pinnum:expr)*) => {
+        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$firstpin].modify(|_, w| w
             .pullen().set_bit()
         )
+        $(
+            ;
+            board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
+                .pullen().set_bit()
+            )
+        )*
     };
-    (disable_pull, $peri:expr, $pinbank:ident, $pinnum:expr) => {
-        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
+    (disable_pull, $peri:expr, $pinbank:ident, $firstpin:expr $(, $pinnum:expr)*) => {
+        board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$firstpin].modify(|_, w| w
             .pullen().clear_bit()
         )
+        $(
+            ;
+            board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
+                .pullen().clear_bit()
+            )
+        )*
     };
     (read_pin, $peri:expr, $pinbank:ident, $pinnum:expr) => {
         (board_pin!(pinbank_to_in_reg, $peri.PORT, $pinbank).read().bits() & (1 << $pinnum)) != 0
+    };
+    (read_pins, $peri:expr, $pinbank:ident) => {
+        board_pin!(pinbank_to_in_reg, $peri.PORT, $pinbank).read().bits()
     };
     (set_high, $peri:expr, $pinbank:ident $(, $pinnum:expr)+) => {
         board_pin!(pinbank_to_outset_reg, $peri.PORT, $pinbank).write(|w| w
