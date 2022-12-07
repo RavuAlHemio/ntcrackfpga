@@ -48,3 +48,16 @@ The following pins are used for other functions:
 | PA31       | SWDIO (debugging, I/O)                 |
 | PB02       | avoided to ensure oscillator stability |
 | PB03       | avoided to ensure oscillator stability |
+
+## JLCPCB notes
+
+If you wish to have this board manufactured by JLCPCB, please note the following rotation differences:
+
+| components | description     | JLCPCB rotation        |
+| ---------- | --------------- | ---------------------- |
+| J1         | UART pins       | 90°                    |
+| J4         | debug header    | 90°                    |
+| J39, J40   | pin socket      | 270°                   |
+| U1         | microcontroller | 270°? (to be verified) |
+
+JLCPCB-specific rotations can be specified in the [KiCad JLCPCB Tools plugin](https://github.com/Bouni/kicad-jlcpcb-tools).
