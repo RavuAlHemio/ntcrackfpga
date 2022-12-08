@@ -33,9 +33,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 1.152,
-          "height": 1.152,
-          "width": 1.152
+          "drill": 0.0,
+          "height": 1.0,
+          "width": 1.0
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -56,8 +56,8 @@
         }
       ],
       "drc_exclusions": [
-        "silk_over_copper|32500000|57794000|6e781cdb-569e-4c2a-a89d-6709c55795c0|2facc931-df11-4f4e-9311-ee770df2dd4d",
-        "silk_over_copper|32500000|60334000|6e781cdb-569e-4c2a-a89d-6709c55795c0|a0bec943-706c-43f5-bfe2-076f5089409f"
+        "silk_over_copper|30500000|57794000|6e781cdb-569e-4c2a-a89d-6709c55795c0|2facc931-df11-4f4e-9311-ee770df2dd4d",
+        "silk_over_copper|30500000|60334000|6e781cdb-569e-4c2a-a89d-6709c55795c0|a0bec943-706c-43f5-bfe2-076f5089409f"
       ],
       "meta": {
         "version": 2

@@ -27,7 +27,7 @@ fn clock_setup(peripherals: &mut Peripherals) {
     peripherals.OSC32KCTRL.xosc32k.modify(|_, w| w
         .startup().variant(0x6) // longest startup delay, just in case
         .en32k().set_bit() // enable 32kHz output
-        .xtalen().set_bit() // what's connected is a crystal, not a clock
+        .xtalen().clear_bit() // what's connected is a clock (oscillator), not a crystal
     );
 
     // enable it separately

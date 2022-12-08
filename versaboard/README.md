@@ -38,7 +38,7 @@ The following pins are used for other functions:
 | SAML21 pin | function                               |
 | ---------- | -------------------------------------- |
 | PA00       | XIN32 (32kHz oscillator input)         |
-| PA01       | XOUT32 (32kHz oscillator output)       |
+| PA01       | reserved for XOUT32 (32k osc. output)  |
 | PA02       | avoided to ensure oscillator stability |
 | PA03       | avoided to ensure oscillator stability |
 | PA04       | UART TX (board to PC)                  |
