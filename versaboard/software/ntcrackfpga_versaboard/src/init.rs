@@ -159,6 +159,14 @@ pub fn initialize(peripherals: &mut Peripherals) {
         .rws().variant(RWSSELECT_A::HALF)
     );
 
+    // switch to Performance Level 2 for full performance
+    // (do this before clock setup to ensure DFLL48M can be used)
+    peripherals.PM.plcfg.modify(|_, w| w
+        .plsel().pl2()
+    );
+    while !peripherals.PM.intflag.read().plrdy().bit_is_set() {
+    }
+
     clock_setup(peripherals);
     adc_calibration(peripherals);
 
