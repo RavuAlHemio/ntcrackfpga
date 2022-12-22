@@ -47,9 +47,30 @@ impl CrackState {
 
 
 #[panic_handler]
-fn panic_handler(_why: &PanicInfo) -> ! {
-    // set PA24 (on-board LED) to output
+fn panic_handler(why: &PanicInfo) -> ! {
     let mut peripherals = unsafe { Peripherals::steal() };
+
+    // try mentioning it on the UART
+    uart::send(&mut peripherals, b"PANIC! (not at the disco)\r\n");
+    if let Some(s) = why.payload().downcast_ref::<&str>() {
+        uart::send(&mut peripherals, b"reason: ");
+        uart::send(&mut peripherals, s.as_bytes());
+        uart::send(&mut peripherals, b"\r\n");
+    }
+    if let Some(loc) = why.location() {
+        uart::send(&mut peripherals, b"file: ");
+        uart::send(&mut peripherals, loc.file().as_bytes());
+        uart::send(&mut peripherals, b" line (reversed digits): ");
+        let mut line = loc.line();
+        while line > 0 {
+            let line_digit = (line % 10) as u8;
+            line /= 10;
+            uart::send(&mut peripherals, &[b'0' + line_digit]);
+        }
+        uart::send(&mut peripherals, b"\r\n");
+    }
+
+    // set PA24 (on-board LED) to output
     board_pin!(set_io, &mut peripherals, PA, 24);
     board_pin!(make_output, &mut peripherals, PA, 24);
 
