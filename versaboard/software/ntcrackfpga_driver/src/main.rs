@@ -113,6 +113,16 @@ fn sleepiness() {
     }
 }
 
+macro_rules! send_uart_pin {
+    ($peri:expr, $pinbank:ident, $pinnum:expr) => {
+        if board_pin!(read_pin, $peri, $pinbank, $pinnum) {
+            uart::send($peri, b"1")
+        } else {
+            uart::send($peri, b"0")
+        }
+    };
+}
+
 fn set_new_hash_byte(peripherals: &mut Peripherals, byte: u8) {
     // bit 0 = PA08, ... bit 7 = PA15
     const BIT_OFFSET: u32 = 8;
@@ -213,6 +223,8 @@ fn main() -> ! {
                                     "\r\n            start (go)",
                                     "\r\n  s",
                                     "\r\n            output status information",
+                                    "\r\n  p",
+                                    "\r\n            output status of input pins",
                                 ).as_bytes(),
                             );
                         } else if buf_slice[0] == b'h' {
@@ -286,6 +298,21 @@ fn main() -> ! {
                                     CrackState::Finished => b"\r\ncracking finished",
                                 }
                             );
+                        } else if buf_slice == b"p" {
+                            uart::send(&mut peripherals, b"\r\nmatch found: ");
+                            send_uart_pin!(&mut peripherals, PA, 6);
+                            uart::send(&mut peripherals, b"\r\nmy turn: ");
+                            send_uart_pin!(&mut peripherals, PA, 7);
+                            uart::send(&mut peripherals, b"\r\npassword byte: ");
+                            send_uart_pin!(&mut peripherals, PA, 16);
+                            send_uart_pin!(&mut peripherals, PA, 17);
+                            send_uart_pin!(&mut peripherals, PA, 18);
+                            send_uart_pin!(&mut peripherals, PA, 19);
+                            send_uart_pin!(&mut peripherals, PA, 20);
+                            send_uart_pin!(&mut peripherals, PA, 21);
+                            send_uart_pin!(&mut peripherals, PA, 22);
+                            send_uart_pin!(&mut peripherals, PA, 23);
+                            uart::send(&mut peripherals, b"\r\n");
                         } else {
                             uart::send(
                                 &mut peripherals, b"\r\nUnknown command; type \"help\" for help.",
