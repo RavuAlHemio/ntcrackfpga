@@ -29,8 +29,10 @@ fn clock_setup(peripherals: &mut Peripherals) {
     peripherals.OSC32KCTRL.xosc32k.modify(|_, w| w
         .startup().variant(0x6) // longest startup delay, just in case
         .en32k().set_bit() // enable 32kHz output
+        .ondemand().clear_bit() // always run it, not just on demand
         .xtalen().clear_bit() // what's connected is a clock (oscillator), not a crystal
     );
+    // (always clear the "ondemand" bit or XOSC32K will never stabilize)
 
     // enable it separately
     // (SAM D21/DA1 datasheet § 17.6.3: "Writing to the XOSC32K.ENABLE bit while writing to other
