@@ -8,20 +8,22 @@ use crate::calibration::{adc_bias_cal, adc_linearity_cal};
 
 /// This sets up the relevant clocks.
 ///
-/// The following steps are taken:
+/// The following clock topology is used:
 ///
-/// 1. Set up and enable XOSC32K (32_768Hz external crystal) in crystal mode.
-///
-/// 2. Set XOSC32K as source for GCG1 (Generic Clock Generator 1).
-///
-/// 3. Set up and enable DFLL48M (with GCG1 as source).
-///
-/// 4. Set DFLL48M as source for GCG0 (= CPU clock).
-///
-/// In contrast to Arduino, GCG3 is not set up (from OSCxM); it is apparently only used for I2S
-/// anyway.
+/// ```
+///   ┌───────────┐          ┌────────┐          ┌────────┐
+///   │ XOSC32K   │          │ GCG0   │          │ CPU    │
+///   │ 32_768 Hz ├──┐   ┌───┤ 48 MHz ├───────┬──┤ 48 MHz │
+///   └───────────┘   ╲ ╱    └────────┘       │  └────────┘
+///                    ╳                      │
+///   ┌─────────┐     ╱ ╲    ┌───────────┐    │  ┌─────────────────┐
+///   │ DFLL48M │    │   │   │ GCG1      │    │  │ SERCOM0 (UART)  │
+/// ┌─┤ 48 MHz  ├────┘   └───┤ 32_768 Hz ├─┐  └──┤ core: 48 MHz    │
+/// │ └─────────┘            └───────────┘ │     ┤ slow: none      │
+/// └──────────────────────────────────────┘     └─────────────────┘
+/// ```
 fn clock_setup(peripherals: &mut Peripherals) {
-    // step 1
+    // step 1: set up and enable XOSC32K (32_768Hz external crystal) in crystal mode
 
     // set up XOSC32K
     peripherals.OSC32KCTRL.xosc32k.modify(|_, w| w
@@ -45,7 +47,7 @@ fn clock_setup(peripherals: &mut Peripherals) {
     // accesses to GCLK must be synchronized (two different clocks);
     // this is the reason for all the syncbusy loops
 
-    // step 2
+    // step 2: set XOSC32K as source for GCG1 (Generic Clock Generator 1)
 
     // reset the generic clock controller, just in case
     peripherals.GCLK.ctrla.modify(|_, w| w
@@ -65,7 +67,7 @@ fn clock_setup(peripherals: &mut Peripherals) {
     while peripherals.GCLK.syncbusy.read().genctrl1().bit_is_set() {
     }
 
-    // step 3
+    // step 3: set up and enable DFLL48M with GCG1 as source
 
     // set GCG1 as source of DFLL48M (Digital Frequency Locked Loop, 48 MHz)
     // index taken from datasheet § 17.10.4 (table 17-9)
@@ -120,7 +122,7 @@ fn clock_setup(peripherals: &mut Peripherals) {
     while oscstatus.read().dfllrdy().bit_is_clear() {
     }
 
-    // step 4
+    // step 4: set DFLL48M as source for GCG0 (= CPU clock)
 
     peripherals.GCLK.genctrl[0].modify(|_, w| w
         .src().dfll48m() // take clock from DFLL48M
