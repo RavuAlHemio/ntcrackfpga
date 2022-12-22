@@ -192,7 +192,7 @@ fn main() -> ! {
             let uart_buf = unsafe { UART_BUFFER.critical_take() };
 
             for &b in uart_buf.as_slice() {
-                if b == 0x0C {
+                if b == 0x0D {
                     // carriage return
                     if ignoring_until_enter {
                         ignoring_until_enter = false;
@@ -310,7 +310,7 @@ fn main() -> ! {
                             uart::send(&mut peripherals, b"\x08 \x08");
                         }
                     },
-                    0x0C => unreachable!(), // handled above
+                    0x0D => unreachable!(), // handled above
                     0x09|0x20 => {
                         // tab or space; silently ignore it
                     },
