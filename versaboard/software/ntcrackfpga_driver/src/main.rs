@@ -326,8 +326,10 @@ fn main() -> ! {
                         // echo back
                         uart::send(&mut peripherals, &[b]);
                     },
-                    _ => {
-                        uart::send(&mut peripherals, b"\r\ndude, I'm a microcontroller, I can't deal with weird control characters");
+                    other => {
+                        let hexed = byte_to_hex(other);
+                        uart::send(&mut peripherals, b"\r\ndude, I'm a microcontroller, I can't deal with weird control characters like 0x");
+                        uart::send(&mut peripherals, &hexed);
                         uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something,\r\nI'll be ignoring anything you type until the next carriage return (Enter)");
                     },
                 }
