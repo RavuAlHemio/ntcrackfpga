@@ -20,7 +20,7 @@ use crate::pin::PeripheralIndex;
 pub fn set_up(peripherals: &mut Peripherals) {
     // enable SERCOM0 core clock (use GCLK0 = 48MHz)
     // index taken from datasheet § 17.10.4 (table 17-9)
-    const PCHCTRL_SERCOM0_CORE: usize = 17;
+    const PCHCTRL_SERCOM0_CORE: usize = 18;
     peripherals.GCLK.pchctrl[PCHCTRL_SERCOM0_CORE].write(|w| w
         .gen().gclk0()
         .chen().set_bit()
