@@ -59,7 +59,7 @@ impl<const MAX_SIZE: usize> ByteBuffer<MAX_SIZE> {
         // we can allocate this outside of the critical section
         let mut buf = [0u8; MAX_SIZE];
         let new_buf = critical_section::with(|_| {
-            buf.copy_from_slice(&self.as_slice());
+            buf.copy_from_slice(&self.bytes);
             let nb = Self {
                 bytes: buf,
                 byte_count: self.byte_count,
