@@ -7,7 +7,7 @@ According to Table 2.1 in the _ECP5 Evaluation Board User's Guide_ (Lattice FPGA
 | bank | default V | change?   |
 | ---- | --------- | --------- |
 | 0    | +3.3V     | JP10      |
-| 1    | *+2.5V*   | resistors |
+| 1    | **+2.5V** | resistors |
 | 2    | +3.3V     | resistors |
 | 3    | +3.3V     | resistors |
 | 6    | +3.3V     | resistors |
