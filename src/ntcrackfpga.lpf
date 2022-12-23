@@ -1,19 +1,36 @@
 # I/O pin configuration for ECP5 Evaluation Board (LFE5UM5G-85F-EVN)
+# see also versaboard/versabanks.md
 
 # on-board crystal X2
 LOCATE COMP "clk" SITE "Y19";
 FREQUENCY PORT "clk" 200 MHZ;
 IOBUF PORT "clk" IO_TYPE=LVDS;
 
-# Versa J39 bottom row (pins 5, 7, 9, 11, 13, 15, 17, 19)
-LOCATE COMP "new_hash_byte[0]" SITE "B15";
-LOCATE COMP "new_hash_byte[1]" SITE "B13";
-LOCATE COMP "new_hash_byte[2]" SITE "D11";
-LOCATE COMP "new_hash_byte[3]" SITE "B12";
-LOCATE COMP "new_hash_byte[4]" SITE "D12";
-LOCATE COMP "new_hash_byte[5]" SITE "C13";
-LOCATE COMP "new_hash_byte[6]" SITE "E13";
-LOCATE COMP "new_hash_byte[7]" SITE "A9";
+# Versa J39 pin 19
+LOCATE COMP "store_hash_byte" SITE "A9";
+IOBUF PORT "store_hash_byte" IO_TYPE=LVCMOS33;
+
+# Versa J39 pin 20
+LOCATE COMP "go" SITE "B10";
+IOBUF PORT "go" IO_TYPE=LVCMOS33;
+
+# Versa J39 pin 29
+LOCATE COMP "match_found" SITE "E7";
+IOBUF PORT "match_found" IO_TYPE=LVCMOS33;
+
+# Versa J39 pin 31
+LOCATE COMP "your_turn" SITE "A11";
+IOBUF PORT "your_turn" IO_TYPE=LVCMOS33;
+
+# Versa J40 top row (pins 4, 6, 8, 10, 12, 14, 16, 18)
+LOCATE COMP "new_hash_byte[0]" SITE "F1";
+LOCATE COMP "new_hash_byte[1]" SITE "G1";
+LOCATE COMP "new_hash_byte[2]" SITE "J5";
+LOCATE COMP "new_hash_byte[3]" SITE "K3";
+LOCATE COMP "new_hash_byte[4]" SITE "L5";
+LOCATE COMP "new_hash_byte[5]" SITE "N5";
+LOCATE COMP "new_hash_byte[6]" SITE "P5";
+LOCATE COMP "new_hash_byte[7]" SITE "M3";
 IOBUF PORT "new_hash_byte[0]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[1]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[2]" IO_TYPE=LVCMOS33;
@@ -23,33 +40,15 @@ IOBUF PORT "new_hash_byte[5]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[6]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[7]" IO_TYPE=LVCMOS33;
 
-# the following pins are on the Versa J39 top row
-
-# pin 4
-LOCATE COMP "store_hash_byte" SITE "D15";
-IOBUF PORT "store_hash_byte" IO_TYPE=LVCMOS33;
-
-# pin 6
-LOCATE COMP "go" SITE "C15";
-IOBUF PORT "go" IO_TYPE=LVCMOS33;
-
-# pin 8
-LOCATE COMP "match_found" SITE "B20";
-IOBUF PORT "match_found" IO_TYPE=LVCMOS33;
-
-# pin 10
-LOCATE COMP "your_turn" SITE "E11";
-IOBUF PORT "your_turn" IO_TYPE=LVCMOS33;
-
-# Versa J40 bottom row (pins 1, 3, 5, 7, 9, 11, 13, 15)
+# Versa J40 bottom row (pins 1, 5, 7, 9, 11, 13, 15, 17)
 LOCATE COMP "password_byte[0]" SITE "K2";
-LOCATE COMP "password_byte[1]" SITE "A15";
-LOCATE COMP "password_byte[2]" SITE "H2";
-LOCATE COMP "password_byte[3]" SITE "J4";
-LOCATE COMP "password_byte[4]" SITE "J3";
-LOCATE COMP "password_byte[5]" SITE "L4";
-LOCATE COMP "password_byte[6]" SITE "M4";
-LOCATE COMP "password_byte[7]" SITE "N4";
+LOCATE COMP "password_byte[1]" SITE "H2";
+LOCATE COMP "password_byte[2]" SITE "J4";
+LOCATE COMP "password_byte[3]" SITE "J3";
+LOCATE COMP "password_byte[4]" SITE "L4";
+LOCATE COMP "password_byte[5]" SITE "M4";
+LOCATE COMP "password_byte[6]" SITE "N4";
+LOCATE COMP "password_byte[7]" SITE "N3";
 IOBUF PORT "password_byte[0]" IO_TYPE=LVCMOS33;
 IOBUF PORT "password_byte[1]" IO_TYPE=LVCMOS33;
 IOBUF PORT "password_byte[2]" IO_TYPE=LVCMOS33;
