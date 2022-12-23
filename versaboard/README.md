@@ -12,26 +12,26 @@ The following SAML21 pins are used for the interconnection with the evaluation b
 
 | SAML21 pin | ECP5 Eval Board | function           | direction | ECP5 ball |
 | ---------- | --------------- | ------------------ | --------- | --------- |
-| PB08       | J39 pin 4       | `store_hash_byte`  | →         | D15       |
-| PB09       | J39 pin 6       | `go`               | →         | C15       |
-| PA06       | J39 pin 8       | `match_found`      | ←         | B20       |
-| PA07       | J39 pin 10      | `your_turn`        | ←         | E11       |
-| PA08       | J39 pin 5       | `new_hash_byte[0]` | →         | B15       |
-| PA09       | J39 pin 7       | `new_hash_byte[1]` | →         | B13       |
-| PA10       | J39 pin 9       | `new_hash_byte[2]` | →         | D11       |
-| PA11       | J39 pin 11      | `new_hash_byte[3]` | →         | B12       |
-| PA12       | J39 pin 13      | `new_hash_byte[4]` | →         | D12       |
-| PA13       | J39 pin 15      | `new_hash_byte[5]` | →         | C13       |
-| PA14       | J39 pin 17      | `new_hash_byte[6]` | →         | E13       |
-| PA15       | J39 pin 19      | `new_hash_byte[7]` | →         | A9        |
+| PB08       | J39 pin 19      | `store_hash_byte`  | →         | A9        |
+| PB09       | J39 pin 20      | `go`               | →         | B10       |
+| PA06       | J39 pin 29      | `match_found`      | ←         | E7        |
+| PA07       | J39 pin 31      | `your_turn`        | ←         | A11       |
+| PA08       | J40 pin 4       | `new_hash_byte[0]` | →         | F1        |
+| PA09       | J40 pin 6       | `new_hash_byte[1]` | →         | G1        |
+| PA10       | J40 pin 8       | `new_hash_byte[2]` | →         | J5        |
+| PA11       | J40 pin 10      | `new_hash_byte[3]` | →         | K3        |
+| PA12       | J40 pin 12      | `new_hash_byte[4]` | →         | L5        |
+| PA13       | J40 pin 14      | `new_hash_byte[5]` | →         | N5        |
+| PA14       | J40 pin 16      | `new_hash_byte[6]` | →         | P5        |
+| PA15       | J40 pin 18      | `new_hash_byte[7]` | →         | M3        |
 | PA16       | J40 pin 1       | `password_byte[0]` | ←         | K2        |
-| PA17       | J40 pin 3       | `password_byte[1]` | ←         | A15       |
-| PA18       | J40 pin 5       | `password_byte[2]` | ←         | H2        |
-| PA19       | J40 pin 7       | `password_byte[3]` | ←         | J4        |
-| PA20       | J40 pin 9       | `password_byte[4]` | ←         | J3        |
-| PA21       | J40 pin 11      | `password_byte[5]` | ←         | L4        |
-| PA22       | J40 pin 13      | `password_byte[6]` | ←         | M4        |
-| PA23       | J40 pin 15      | `password_byte[7]` | ←         | N4        |
+| PA17       | J40 pin 5       | `password_byte[1]` | ←         | H2        |
+| PA18       | J40 pin 7       | `password_byte[2]` | ←         | J4        |
+| PA19       | J40 pin 9       | `password_byte[3]` | ←         | J3        |
+| PA20       | J40 pin 11      | `password_byte[4]` | ←         | L4        |
+| PA21       | J40 pin 13      | `password_byte[5]` | ←         | M4        |
+| PA22       | J40 pin 15      | `password_byte[6]` | ←         | N4        |
+| PA23       | J40 pin 17      | `password_byte[7]` | ←         | N3        |
 
 The following pins are used for other functions:
 
