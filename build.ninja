@@ -43,9 +43,11 @@ build ntcrackfpga_test.vpp: iverilogpp src/tests/ntcrackfpga_test.v
 build ntcrackfpga.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/ntcrackfpga_hw.v src/pwadder.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
     topmodule = ntcrackfpga_hw
     yolog = ntcrackfpga_yosys.log
+    pool = console
 build ntcrackfpga-pnr.txt: nextpnr_ecp5 ntcrackfpga.json
     pnrlog = ntcrackfpga_pnr.log
     lpf = src/ntcrackfpga.lpf
+    pool = console
 build ntcrackfpga.svf ntcrackfpga.bit: ecppack ntcrackfpga-pnr.txt
 
 default ntcrackfpga.ic ntcrackfpga.svf ntcrackfpga.bit
