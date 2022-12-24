@@ -52,3 +52,7 @@ IOBUF PORT "password_byte[4]" IO_TYPE=LVCMOS33;
 IOBUF PORT "password_byte[5]" IO_TYPE=LVCMOS33;
 IOBUF PORT "password_byte[6]" IO_TYPE=LVCMOS33;
 IOBUF PORT "password_byte[7]" IO_TYPE=LVCMOS33;
+
+# LED
+LOCATE COMP "blinky_led" SITE "A13";
+IOBUF PORT "blinky_led" IO_TYPE=LVCMOS25;

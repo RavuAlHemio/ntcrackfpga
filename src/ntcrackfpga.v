@@ -5,7 +5,8 @@ module ntcrackfpga(
     input go,
     output reg match_found,
     output reg your_turn,
-    output reg [7:0] password_byte);
+    output reg [7:0] password_byte,
+    output reg blinky_led);
 
 `include "gen/inc/encodepwd.v"
 `include "src/inc/byteswap.v"
@@ -102,9 +103,13 @@ initial begin
     password_byte_index <= 0;
 
     your_turn <= 1;
+
+    blinky_led <= 0;
 end
 
 always @ (posedge clk) begin
+    blinky_led <= !blinky_led;
+
     case (state)
         // loading stage
         0: begin
