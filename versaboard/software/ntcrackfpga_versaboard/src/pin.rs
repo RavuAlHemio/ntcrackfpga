@@ -76,11 +76,23 @@ macro_rules! board_pin {
         board_pin!(pinbank_to_dirclr_reg, $peri.PORT, $pinbank).write(|w| w
             .dirclr().variant(board_pin!(@bitmasking, 0 $(, $pinnum)+)) // equivalent to .dir().clear_bit() but no read-modify-write
         )
+        $(
+            ;
+            board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
+                .inen().set_bit()
+            )
+        )+
     };
     (make_output, $peri:expr, $pinbank:ident $(, $pinnum:expr)+) => {
         board_pin!(pinbank_to_dirset_reg, $peri.PORT, $pinbank).write(|w| w
             .dirset().variant(board_pin!(@bitmasking, 0 $(, $pinnum)+)) // equivalent to .dir().set_bit() but no R-M-W
         )
+        $(
+            ;
+            board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$pinnum].modify(|_, w| w
+                .inen().clear_bit()
+            )
+        )+
     };
     (enable_pull, $peri:expr, $pinbank:ident, $firstpin:expr $(, $pinnum:expr)*) => {
         board_pin!(pinbank_to_cfg_reg, $peri.PORT, $pinbank)[$firstpin].modify(|_, w| w
