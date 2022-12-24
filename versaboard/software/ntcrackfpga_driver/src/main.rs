@@ -329,8 +329,8 @@ fn main() -> ! {
                 }
 
                 match b {
-                    0x08 => {
-                        // backspace
+                    0x08|0x7F => {
+                        // backspace/delete
                         if cmdline_buffer.len() > 0 {
                             cmdline_buffer.pop();
                             // wipe out the previous character by replacing it with a space and going back
