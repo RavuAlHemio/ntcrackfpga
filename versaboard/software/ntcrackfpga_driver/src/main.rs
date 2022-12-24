@@ -348,6 +348,7 @@ fn main() -> ! {
                             // we've run out of space
                             uart::send(&mut peripherals, b"\r\ndude, I'm a microcontroller, max command line length is 128");
                             uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something, I'll forget the current\r\ncommand line and I'll be ignoring anything you type until the next\r\ncarriage return (Enter)");
+                            cmdline_buffer.clear();
                             ignoring_until_enter = true;
                         }
                         // echo back
@@ -358,6 +359,8 @@ fn main() -> ! {
                         uart::send(&mut peripherals, b"\r\ndude, I'm a microcontroller, I can't deal with weird control characters like 0x");
                         uart::send(&mut peripherals, &hexed);
                         uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something, I'll forget the current\r\ncommand line and I'll be ignoring anything you type until the next\r\ncarriage return (Enter)");
+                        cmdline_buffer.clear();
+                        ignoring_until_enter = true;
                     },
                 }
             }
