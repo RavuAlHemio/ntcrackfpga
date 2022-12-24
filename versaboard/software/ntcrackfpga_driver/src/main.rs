@@ -347,7 +347,7 @@ fn main() -> ! {
                         if !stored {
                             // we've run out of space
                             uart::send(&mut peripherals, b"\r\ndude, I'm a microcontroller, max command line length is 128");
-                            uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something,\r\nI'll be ignoring anything you type until the next carriage return (Enter)");
+                            uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something, I'll forget the current\r\ncommand line and I'll be ignoring anything you type until the next\r\ncarriage return (Enter)");
                             ignoring_until_enter = true;
                         }
                         // echo back
@@ -357,7 +357,7 @@ fn main() -> ! {
                         let hexed = byte_to_hex(other);
                         uart::send(&mut peripherals, b"\r\ndude, I'm a microcontroller, I can't deal with weird control characters like 0x");
                         uart::send(&mut peripherals, &hexed);
-                        uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something,\r\nI'll be ignoring anything you type until the next carriage return (Enter)");
+                        uart::send(&mut peripherals, b"\r\nsince you might have inadvertently pasted something, I'll forget the current\r\ncommand line and I'll be ignoring anything you type until the next\r\ncarriage return (Enter)");
                     },
                 }
             }
