@@ -13,8 +13,6 @@ module ntcrackfpga(
 
 reg [4:0] state;
 
-wire div_clk;
-
 reg [159:0] password_chars;
 reg [4:0] password_len;
 wire [159:0] next_password_chars;
@@ -45,12 +43,8 @@ wire checker_matchfound;
 reg [3:0] next_hash_byte;
 reg [4:0] password_byte_index;
 
-clockdiv clkdiv(
-    clk,
-    div_clk);
-
 pwadder passadder(
-    div_clk,
+    clk,
     password_chars,
     password_len,
     increment_password_trigger,
@@ -59,7 +53,7 @@ pwadder passadder(
     increment_password_done);
 
 md4block md4maker(
-    div_clk,
+    clk,
     md4_irdy,
     md4_in_a,
     md4_in_b,
@@ -73,7 +67,7 @@ md4block md4maker(
     md4_out_d);
 
 hashchecker hchecker(
-    div_clk,
+    clk,
     checker_newrdy,
     checker_checkrdy,
     md4_hash_holder,
@@ -110,7 +104,7 @@ initial begin
     your_turn <= 1;
 end
 
-always @ (posedge div_clk) begin
+always @ (posedge clk) begin
     case (state)
         // loading stage
         0: begin

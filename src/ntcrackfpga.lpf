@@ -1,11 +1,6 @@
 # I/O pin configuration for ECP5 Evaluation Board (LFE5UM5G-85F-EVN)
 # see also versaboard/versabanks.md
 
-# on-board crystal X2
-LOCATE COMP "clk" SITE "Y19";
-FREQUENCY PORT "clk" 200 MHZ;
-IOBUF PORT "clk" IO_TYPE=LVDS;
-
 # Versa J39 pin 19
 LOCATE COMP "store_hash_byte" SITE "A9";
 IOBUF PORT "store_hash_byte" IO_TYPE=LVCMOS33;
