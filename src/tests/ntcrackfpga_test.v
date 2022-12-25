@@ -9,6 +9,7 @@ reg go;
 wire match_found;
 wire my_turn;
 wire [7:0] password_byte;
+wire blinky_led;
 
 reg [7:0] state;
 reg [167:0] password;
@@ -20,7 +21,8 @@ ntcrackfpga cracker(
     go,
     match_found,
     my_turn,
-    password_byte);
+    password_byte,
+    blinky_led);
 
 initial begin
     $dumpfile("ntcrackfpga_test.vcd");
@@ -32,6 +34,7 @@ initial begin
     go <= 0;
 
     state <= 0;
+    found_password_count <= 0;
 end
 
 always begin
