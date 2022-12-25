@@ -44,6 +44,16 @@ impl CrackState {
             _ => false,
         }
     }
+
+    #[inline]
+    pub fn can_wait_for_interrupt(&self) -> bool {
+        // return false if the microcontroller has to perform the next step
+        // return true if the next step is performed by the user or the FPGA
+        match self {
+            Self::SendingHash|Self::PasswordOutput => false,
+            _ => true,
+        }
+    }
 }
 
 
@@ -193,8 +203,10 @@ fn main() -> ! {
     let mut password_buffer = [0u8; PASSWORD_LENGTH + 1];
     let mut current_index: usize = 0;
     loop {
-        // wait for an interrupt
-        cortex_m::asm::wfi();
+        if state.can_wait_for_interrupt() {
+            // it's not us who has to do the work right now
+            cortex_m::asm::wfi();
+        }
 
         // check UART
         let have_bytes = unsafe { UART_BUFFER.len() > 0 };
