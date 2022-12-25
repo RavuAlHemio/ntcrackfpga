@@ -13,6 +13,7 @@ wire blinky_led;
 
 reg [7:0] state;
 reg [167:0] password;
+reg [1:0] found_password_count;
 
 ntcrackfpga cracker(
     clk,
@@ -130,7 +131,14 @@ always @ (posedge clk) begin
             state <= 164;
         end
         164: begin
+            `ifndef PERFORM_FULL_RUN
             // wait for it
+            if (found_password_count == 2) begin
+                // early break
+                $finish;
+            end else
+            `endif
+
             if (my_turn) begin
                 if (match_found) begin
                     // we have a password
@@ -170,6 +178,7 @@ always @ (posedge clk) begin
         249: begin
             // spit out password
             $display("found: %x", password);
+            found_password_count <= found_password_count + 1;
 
             // wait for next event
             state <= 164;
