@@ -21,6 +21,7 @@ static mut UART_BUFFER: ByteBuffer<64> = ByteBuffer::new();
 
 
 enum CrackState {
+    Unknown,
     AwaitingHashInput,
     SendingHash,
     Cracking,
@@ -185,7 +186,7 @@ fn main() -> ! {
 
     uart::send(&mut peripherals, b"\r\nntcrackfpga driver\r\n>");
 
-    let mut state = CrackState::AwaitingHashInput;
+    let mut state = CrackState::Unknown;
     let mut cmdline_buffer: ByteBuffer<128> = ByteBuffer::new();
     let mut ignoring_until_enter = false;
     let mut hash_buffer = [0u8; HASH_LENGTH];
@@ -291,6 +292,7 @@ fn main() -> ! {
                             uart::send(
                                 &mut peripherals,
                                 match state {
+                                    CrackState::Unknown => b"\r\nunknown",
                                     CrackState::AwaitingHashInput => b"\r\nawaiting hash input",
                                     CrackState::SendingHash => b"\r\nsending hash to FPGA",
                                     CrackState::Cracking => b"\r\nFPGA is cracking",
@@ -370,6 +372,10 @@ fn main() -> ! {
         let my_turn = board_pin!(read_pin, &mut peripherals, PA, 7);
         if my_turn {
             match state {
+                CrackState::Unknown => {
+                    // assume we are now waiting for hash input
+                    state = CrackState::AwaitingHashInput;
+                },
                 CrackState::SendingHash => {
                     // set new_hash_byte
                     set_new_hash_byte(&mut peripherals, hash_buffer[current_index]);
