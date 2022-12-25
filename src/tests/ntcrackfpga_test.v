@@ -103,7 +103,7 @@ end
     // next step at initial_time + 4
 
 
-always @ (posedge cracker.div_clk) begin
+always @ (posedge clk) begin
     // populate the following hashes:
     // md4(utf16le("12")) == md4("\x31\x00\x32\x00") == 588FEB889288FB953B5F094D47D1565C
     // md4(utf16le("!?")) == md4("\x21\x00\x3F\x00") == 91D533DC611AC2774431E2D0BAF36805
