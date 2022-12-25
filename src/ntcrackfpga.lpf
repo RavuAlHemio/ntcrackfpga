@@ -36,23 +36,29 @@ IOBUF PORT "new_hash_byte[6]" IO_TYPE=LVCMOS33;
 IOBUF PORT "new_hash_byte[7]" IO_TYPE=LVCMOS33;
 
 # Versa J40 bottom row (pins 1, 5, 7, 9, 11, 13, 15, 17)
-LOCATE COMP "password_byte[0]" SITE "K2";
-LOCATE COMP "password_byte[1]" SITE "H2";
-LOCATE COMP "password_byte[2]" SITE "J4";
-LOCATE COMP "password_byte[3]" SITE "J3";
-LOCATE COMP "password_byte[4]" SITE "L4";
-LOCATE COMP "password_byte[5]" SITE "M4";
-LOCATE COMP "password_byte[6]" SITE "N4";
-LOCATE COMP "password_byte[7]" SITE "N3";
-IOBUF PORT "password_byte[0]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[1]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[2]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[3]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[4]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[5]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[6]" IO_TYPE=LVCMOS33;
-IOBUF PORT "password_byte[7]" IO_TYPE=LVCMOS33;
+LOCATE COMP "output_byte[0]" SITE "K2";
+LOCATE COMP "output_byte[1]" SITE "H2";
+LOCATE COMP "output_byte[2]" SITE "J4";
+LOCATE COMP "output_byte[3]" SITE "J3";
+LOCATE COMP "output_byte[4]" SITE "L4";
+LOCATE COMP "output_byte[5]" SITE "M4";
+LOCATE COMP "output_byte[6]" SITE "N4";
+LOCATE COMP "output_byte[7]" SITE "N3";
+IOBUF PORT "output_byte[0]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[1]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[2]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[3]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[4]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[5]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[6]" IO_TYPE=LVCMOS33;
+IOBUF PORT "output_byte[7]" IO_TYPE=LVCMOS33;
 
-# LED
-LOCATE COMP "blinky_led" SITE "A13";
-IOBUF PORT "blinky_led" IO_TYPE=LVCMOS25;
+# DIP switch, positions 1 and 2
+LOCATE COMP "step_active" SITE "J1";
+LOCATE COMP "give_state" SITE "H1";
+IOBUF PORT "step_active" IO_TYPE=LVCMOS33;
+IOBUF PORT "give_state" IO_TYPE=LVCMOS33;
+
+# button SW4 (low when active)
+LOCATE COMP "step_clock_bouncy" SITE "P4";
+IOBUF PORT "step_clock_bouncy" IO_TYPE=LVCMOS33;

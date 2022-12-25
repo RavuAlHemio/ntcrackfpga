@@ -4,13 +4,15 @@ module hashchecker (
     input checkrdy,
     input [127:0] hash,
     output reg resultrdy,
-    output reg matchfound);
+    output reg matchfound,
+
+    // debug outputs
+    output reg [(128*128-1):0] hashes);
 
 `include "gen/inc/muxes.v"
 
 reg [3:0] state;
 reg [6:0] current_hash_index;
-reg [(128*128-1):0] hashes;
 reg write_trigger;
 reg [127:0] current_hash_bits;
 

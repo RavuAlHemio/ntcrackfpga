@@ -6,7 +6,12 @@ module ntcrackfpga(
     output reg match_found,
     output reg your_turn,
     output reg [7:0] password_byte,
-    output reg blinky_led);
+
+    // debug outputs
+    output reg [4:0] password_len,
+    output reg [159:0] password_chars,
+    output wire [(128*128-1):0] hashes,
+    output reg [127:0] md4_hash_holder);
 
 `include "gen/inc/encodepwd.v"
 `include "src/inc/byteswap.v"
@@ -14,8 +19,6 @@ module ntcrackfpga(
 
 reg [4:0] state;
 
-reg [159:0] password_chars;
-reg [4:0] password_len;
 wire [159:0] next_password_chars;
 wire [4:0] next_password_len;
 reg increment_password_trigger;
@@ -33,7 +36,6 @@ wire [31:0] md4_out_b;
 wire [31:0] md4_out_c;
 wire [31:0] md4_out_d;
 
-reg [127:0] md4_hash_holder;
 reg really_checking;
 
 reg checker_newrdy;
@@ -73,7 +75,8 @@ hashchecker hchecker(
     checker_checkrdy,
     md4_hash_holder,
     checker_resultrdy,
-    checker_matchfound);
+    checker_matchfound,
+    hashes);
 
 initial begin
     match_found <= 0;
@@ -106,8 +109,6 @@ initial begin
 end
 
 always @ (posedge clk) begin
-    blinky_led <= next_password_chars[0];
-
     case (state)
         // loading stage
         0: begin

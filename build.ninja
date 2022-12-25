@@ -40,7 +40,7 @@ build ntcrackfpga_test.ictest: iverilog src/hashchecker.v src/md4block.v src/ntc
 # preprocessed files
 build ntcrackfpga_test.vpp: iverilogpp src/tests/ntcrackfpga_test.v
 
-build ntcrackfpga.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/ntcrackfpga_hw.v src/pwadder.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
+build ntcrackfpga.json: yosys_ecp5 src/hashchecker.v src/md4block.v src/ntcrackfpga.v src/pwadder.v src/hw/clockpick.v src/hw/debounce.v src/hw/ntcrackfpga_hw.v src/hw/state_giver.v | src/inc/byteswap.v src/inc/md4constants.v gen/inc/encodepwd.v gen/inc/muxes.v
     topmodule = ntcrackfpga_hw
     yolog = ntcrackfpga_yosys.log
     pool = console
