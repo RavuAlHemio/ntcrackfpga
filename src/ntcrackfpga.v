@@ -103,12 +103,10 @@ initial begin
     password_byte_index <= 0;
 
     your_turn <= 1;
-
-    blinky_led <= 0;
 end
 
 always @ (posedge clk) begin
-    blinky_led <= !blinky_led;
+    blinky_led <= next_password_chars[0];
 
     case (state)
         // loading stage
