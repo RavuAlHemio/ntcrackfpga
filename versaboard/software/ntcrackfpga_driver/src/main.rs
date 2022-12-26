@@ -317,15 +317,25 @@ fn main() -> ! {
                             send_uart_pin!(&mut peripherals, PA, 6);
                             uart::send(&mut peripherals, b"\r\nmy turn: ");
                             send_uart_pin!(&mut peripherals, PA, 7);
-                            uart::send(&mut peripherals, b"\r\npassword byte: ");
-                            send_uart_pin!(&mut peripherals, PA, 16);
-                            send_uart_pin!(&mut peripherals, PA, 17);
-                            send_uart_pin!(&mut peripherals, PA, 18);
-                            send_uart_pin!(&mut peripherals, PA, 19);
-                            send_uart_pin!(&mut peripherals, PA, 20);
-                            send_uart_pin!(&mut peripherals, PA, 21);
-                            send_uart_pin!(&mut peripherals, PA, 22);
-                            send_uart_pin!(&mut peripherals, PA, 23);
+
+                            let output_byte = get_output_byte(&mut peripherals);
+                            uart::send(&mut peripherals, b"\r\noutput byte: 0b");
+                            for i in 0..8 {
+                                if output_byte & (1 << (7 - i)) == 0 {
+                                    uart::send(&mut peripherals, b"0");
+                                } else {
+                                    uart::send(&mut peripherals, b"1");
+                                }
+                            }
+                            uart::send(&mut peripherals, b" == 0x");
+                            let output_hex = byte_to_hex(output_byte);
+                            uart::send(&mut peripherals, &output_hex);
+                            if output_byte >= 0x20 && output_byte <= 0x7E {
+                                let mut buf: [u8; 7] = *b" == ' '";
+                                buf[6] = output_byte;
+                                uart::send(&mut peripherals, &buf);
+                            }
+
                             uart::send(&mut peripherals, b"\r\n");
                         } else {
                             uart::send(
