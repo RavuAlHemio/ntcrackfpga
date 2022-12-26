@@ -6,6 +6,9 @@ use atsaml21g18b::Peripherals;
 use crate::calibration::{adc_bias_cal, adc_linearity_cal};
 
 
+const XOSC32K_IS_CRYSTAL: bool = cfg!(feature = "crystal");
+
+
 /// This sets up the relevant clocks.
 ///
 /// The following clock topology is used:
@@ -30,7 +33,7 @@ fn clock_setup(peripherals: &mut Peripherals) {
         .startup().variant(0x6) // longest startup delay, just in case
         .en32k().set_bit() // enable 32kHz output
         .ondemand().clear_bit() // always run it, not just on demand
-        .xtalen().clear_bit() // what's connected is a clock (oscillator), not a crystal
+        .xtalen().variant(XOSC32K_IS_CRYSTAL) // true if crystal, false if clock (oscillator)
     );
     // (always clear the "ondemand" bit or XOSC32K will never stabilize)
 

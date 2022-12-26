@@ -97,7 +97,7 @@ jobs:
       - name: check out repository code
         uses: actions/checkout@v3
       - name: run build
-        run: 'cd versaboard/software && cargo build --release'
+        run: 'cd versaboard/software && cargo build --release --features crystal'
       - name: convert ELF to raw binary
         run: ~/.cargo/bin/rust-objcopy --output-target=binary versaboard/software/target/thumbv6m-none-eabi/release/ntcrackfpga_driver versaboard/software/target/thumbv6m-none-eabi/release/ntcrackfpga_driver.bin
       - name: upload binaries
