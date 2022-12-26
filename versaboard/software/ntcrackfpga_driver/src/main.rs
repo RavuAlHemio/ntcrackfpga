@@ -465,7 +465,6 @@ fn main() -> ! {
 #[interrupt]
 fn SERCOM0() {
     let mut peripherals = unsafe { Peripherals::steal() };
-    board_pin!(set_low, peripherals, PA, 24);
     if !uart::has_received_byte(&mut peripherals) {
         return;
     }
