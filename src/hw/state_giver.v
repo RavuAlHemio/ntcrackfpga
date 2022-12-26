@@ -24,6 +24,8 @@ always @ (posedge clk) begin
         3: state_byte <= 8'hCE;
         4: state_byte <= 8'h01;
 
+        // 1 byte follows
+
         // password length
         5: state_byte <= {3'h0, password_len};
 
@@ -33,6 +35,8 @@ always @ (posedge clk) begin
         8: state_byte <= 8'hFA;
         9: state_byte <= 8'hCE;
         10: state_byte <= 8'h02;
+
+        // 20 bytes follow
 
         // password characters
         11: state_byte <= password_chars[159:152];
@@ -62,6 +66,8 @@ always @ (posedge clk) begin
         33: state_byte <= 8'hFA;
         34: state_byte <= 8'hCE;
         35: state_byte <= 8'h03;
+
+        // 32 bytes follow
 
         // stored hashes
         // Python:
@@ -110,6 +116,8 @@ always @ (posedge clk) begin
         71: state_byte <= 8'hCE;
         72: state_byte <= 8'h04;
 
+        // 16 bytes follow
+
         // current hash
         73: state_byte <= current_hash[127:120];
         74: state_byte <= current_hash[119:112];
@@ -134,6 +142,8 @@ always @ (posedge clk) begin
         91: state_byte <= 8'hFA;
         92: state_byte <= 8'hCE;
         93: state_byte <= 8'h05;
+
+        // 3 bytes follow
 
         // state counters
         94: state_byte <= {3'h0, ntcrackfpga_state};
