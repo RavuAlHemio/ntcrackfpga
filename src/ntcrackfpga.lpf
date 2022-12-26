@@ -54,6 +54,7 @@ IOBUF PORT "output_byte[6]" IO_TYPE=LVCMOS33;
 IOBUF PORT "output_byte[7]" IO_TYPE=LVCMOS33;
 
 # DIP switch, positions 1 and 2
+# (note: silkscreen is incorrect, the first three switches are J1/H1/K1 and not J1/K1/H1)
 LOCATE COMP "step_active" SITE "J1";
 LOCATE COMP "give_state" SITE "H1";
 IOBUF PORT "step_active" IO_TYPE=LVCMOS33;
