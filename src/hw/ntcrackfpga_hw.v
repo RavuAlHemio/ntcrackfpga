@@ -55,7 +55,7 @@ state_giver stater(
     md4_hash_holder,
     stater_state_byte);
 
-debounce #(.inverting(1'1)) step_clock_debouncer(
+debounce #(.inverting(1'b1)) step_clock_debouncer(
     builtin_clock,
     step_clock_bouncy,
     step_clock);
