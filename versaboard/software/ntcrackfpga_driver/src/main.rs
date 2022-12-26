@@ -404,6 +404,9 @@ fn main() -> ! {
                     set_new_hash_byte(&mut peripherals, hash_buffer[hash_buffer.len() - current_index - 1]);
                     current_index += 1;
 
+                    // give it a sec
+                    sleepiness();
+
                     // pull "store_hash_byte" high
                     board_pin!(set_high, &mut peripherals, PB, 8);
 
