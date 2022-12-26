@@ -118,7 +118,7 @@ always @ (posedge clk) begin
             // wait until we are asked to store a hash byte or to start processing
             if (go) begin
                 your_turn <= 0;
-                state <= 6;
+                state <= 7;
             end else if (store_hash_byte) begin
                 your_turn <= 0;
                 state <= 1;
@@ -130,12 +130,18 @@ always @ (posedge clk) begin
             state <= 2;
         end
         2: begin
+            // wait for store_hash_byte to be lowered again
+            if (!store_hash_byte) begin
+                state <= 3;
+            end
+        end
+        3: begin
             if (next_hash_byte == 15) begin
                 // the hash is complete; store it
                 checker_newrdy <= 1;
 
                 next_hash_byte <= 0;
-                state <= 3;
+                state <= 4;
             end else begin
                 // wait for the next byte
                 next_hash_byte <= next_hash_byte + 1;
@@ -144,18 +150,18 @@ always @ (posedge clk) begin
                 state <= 0;
             end
         end
-        3: begin
-            // keep newrdy raised...
-
-            state <= 4;
-        end
         4: begin
-            // pull newrdy down
-            checker_newrdy <= 0;
+            // keep newrdy raised...
 
             state <= 5;
         end
         5: begin
+            // pull newrdy down
+            checker_newrdy <= 0;
+
+            state <= 6;
+        end
+        6: begin
             // wait until the checker has stored the hash, then return back
             if (checker_resultrdy) begin
                 your_turn <= 1;
@@ -164,73 +170,79 @@ always @ (posedge clk) begin
         end
 
         // processing stage
-        6: begin
+        7: begin
+            // wait for go to be lowered again
+            if (!store_hash_byte) begin
+                state <= 8;
+            end
+        end
+        8: begin
             // load up the current password
             `SET_MD4_INITIAL(md4_in_a, md4_in_b, md4_in_c, md4_in_d);
             md4_data <= password_to_md4_data(password_chars, password_len);
 
-            state <= 7;
-        end
-        7: begin
-            // trigger MD4
-            md4_irdy <= 1;
-
-            state <= 8;
-        end
-        8: begin
-            // keep MD4 trigger up
-
             state <= 9;
         end
         9: begin
-            // take down MD4 trigger
-            md4_irdy <= 0;
+            // trigger MD4
+            md4_irdy <= 1;
 
             state <= 10;
         end
         10: begin
-            // wait for MD4 to finish
-            if (md4_ordy)
-                state <= 11;
+            // keep MD4 trigger up
+
+            state <= 11;
         end
         11: begin
-            // make the MD4 state a hash
-            md4_hash_holder <= byteswap_md4(md4_out_a, md4_out_b, md4_out_c, md4_out_d);
+            // take down MD4 trigger
+            md4_irdy <= 0;
+
             state <= 12;
         end
         12: begin
-            // let the hash database think about it
-            checker_checkrdy <= 1;
-            state <= 13;
+            // wait for MD4 to finish
+            if (md4_ordy)
+                state <= 13;
         end
         13: begin
-            // keep it up for a bit
+            // make the MD4 state a hash
+            md4_hash_holder <= byteswap_md4(md4_out_a, md4_out_b, md4_out_c, md4_out_d);
             state <= 14;
         end
         14: begin
-            // pull it down
-            checker_checkrdy <= 0;
+            // let the hash database think about it
+            checker_checkrdy <= 1;
             state <= 15;
         end
         15: begin
-            // wait until it's done
-            if (checker_resultrdy)
-                state <= 16;
+            // keep it up for a bit
+            state <= 16;
         end
         16: begin
+            // pull it down
+            checker_checkrdy <= 0;
+            state <= 17;
+        end
+        17: begin
+            // wait until it's done
+            if (checker_resultrdy)
+                state <= 18;
+        end
+        18: begin
             // have we found anything?
             if (checker_matchfound) begin
                 // go into elaboration mode
                 password_byte_index <= 0;
-                state <= 17;
+                state <= 19;
             end else begin
                 // go directly to password incrementing
-                state <= 21;
+                state <= 24;
             end
         end
 
         // elaboration mode
-        17: begin
+        19: begin
             // prepare a character of the password
             if (password_byte_index == 20) begin
                 // send the length as the last byte
@@ -239,58 +251,63 @@ always @ (posedge clk) begin
                 // send that byte of the password
                 `MUX_READ_8_OF_160(password_chars, password_byte_index, password_byte);
             end
-            state <= 18;
+            state <= 20;
         end
-        18: begin
+        20: begin
             // raise the "byte is ready" flag
             your_turn <= 1;
             match_found <= 1;
-            state <= 19;
+            state <= 21;
         end
-        19: begin
+        21: begin
             // keep match_found raised until "go"
             if (go) begin
                 your_turn <= 0;
                 match_found <= 0;
-                state <= 20;
+                state <= 22;
             end
         end
-        20: begin
+        22: begin
+            // wait for "go" to be lowered again
+            if (!go)
+                state <= 23;
+        end
+        23: begin
             if (password_byte_index == 20) begin
                 // this password is done; get on cracking
-                state <= 21;
+                state <= 24;
             end else begin
                 // go to the next byte in elaboration mode
                 password_byte_index <= password_byte_index + 1;
-                state <= 17;
+                state <= 19;
             end
         end
 
         // incrementation
-        21: begin
+        24: begin
             // increment the password
             increment_password_trigger <= 1;
-            state <= 22;
-        end
-        22: begin
-            // keep the flag up
-            state <= 23;
-        end
-        23: begin
-            // lower the flag
-            increment_password_trigger <= 0;
-            state <= 24;
-        end
-        24: begin
-            // wait for incrementor to finish
-            if (increment_password_done)
-                state <= 25;
+            state <= 25;
         end
         25: begin
+            // keep the flag up
+            state <= 26;
+        end
+        26: begin
+            // lower the flag
+            increment_password_trigger <= 0;
+            state <= 27;
+        end
+        27: begin
+            // wait for incrementor to finish
+            if (increment_password_done)
+                state <= 28;
+        end
+        28: begin
             // transfer incremented password and restart processing stage
             password_chars <= next_password_chars;
             password_len <= next_password_len;
-            state <= 6;
+            state <= 7;
         end
     endcase
 end
