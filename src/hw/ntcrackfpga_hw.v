@@ -16,6 +16,9 @@ wire [4:0] password_len;
 wire [159:0] password_chars;
 wire [(128*128-1):0] hashes;
 wire [127:0] md4_hash_holder;
+wire [4:0] ntcrackfpga_state;
+wire [3:0] hashchecker_state;
+wire [5:0] md4block_step;
 
 wire cracker_clock;
 wire stater_clock;
@@ -45,15 +48,21 @@ ntcrackfpga cracker(
     .password_len(password_len),
     .password_chars(password_chars),
     .hashes(hashes),
-    .md4_hash_holder(md4_hash_holder));
+    .md4_hash_holder(md4_hash_holder),
+    .state(ntcrackfpga_state),
+    .md4block_step(md4block_step),
+    .hashchecker_state(hashchecker_state));
 
 state_giver stater(
-    stater_clock,
-    password_len,
-    password_chars,
-    hashes,
-    md4_hash_holder,
-    stater_state_byte);
+    .clk(stater_clock),
+    .password_len(password_len),
+    .password_chars(password_chars),
+    .hashes(hashes),
+    .current_hash(md4_hash_holder),
+    .ntcrackfpga_state(ntcrackfpga_state),
+    .hashchecker_state(hashchecker_state),
+    .md4block_step(md4block_step),
+    .state_byte(stater_state_byte));
 
 debounce #(.inverting(1'b1)) step_clock_debouncer(
     builtin_clock,

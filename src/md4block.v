@@ -10,11 +10,13 @@ module md4block (
     output reg [31:0] newstate_a,
     output reg [31:0] newstate_b,
     output reg [31:0] newstate_c,
-    output reg [31:0] newstate_d);
+    output reg [31:0] newstate_d,
+
+    // debug outputs
+    output reg [5:0] step);
 
 `include "src/inc/byteswap.v"
 
-reg [5:0] step;
 reg [31:0] aa;
 reg [31:0] bb;
 reg [31:0] cc;

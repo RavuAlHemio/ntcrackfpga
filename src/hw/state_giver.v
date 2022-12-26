@@ -4,6 +4,9 @@ module state_giver(
     input [159:0] password_chars,
     input [(128*128-1):0] hashes,
     input [127:0] current_hash,
+    input [4:0] ntcrackfpga_state,
+    input [3:0] hashchecker_state,
+    input [5:0] md4block_step,
     output reg [7:0] state_byte);
 
 reg [11:0] byte_index;
@@ -21,7 +24,7 @@ always @ (posedge clk) begin
         3: state_byte <= 8'hCE;
 
         // password length
-        4: state_byte <= password_len;
+        4: state_byte <= {3'h0, password_len};
 
         // password characters
         5: state_byte <= password_chars[159:152];
@@ -103,15 +106,20 @@ always @ (posedge clk) begin
         71: state_byte <= current_hash[15:8];
         72: state_byte <= current_hash[7:0];
 
+        // state counters
+        73: state_byte <= {3'h0, ntcrackfpga_state};
+        74: state_byte <= {4'h0, hashchecker_state};
+        75: state_byte <= {2'h0, md4block_step};
+
         // footer
-        73: state_byte <= 8'hA2;
-        74: state_byte <= 8'h5E;
-        75: state_byte <= 8'hFA;
-        76: state_byte <= 8'hCE;
+        76: state_byte <= 8'hA2;
+        77: state_byte <= 8'h5E;
+        78: state_byte <= 8'hFA;
+        79: state_byte <= 8'hCE;
 
     endcase
 
-    if (byte_index == 76)
+    if (byte_index == 79)
         byte_index <= 0;
     else
         byte_index <= byte_index + 1;

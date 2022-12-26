@@ -11,13 +11,14 @@ module ntcrackfpga(
     output reg [4:0] password_len,
     output reg [159:0] password_chars,
     output wire [(128*128-1):0] hashes,
-    output reg [127:0] md4_hash_holder);
+    output reg [127:0] md4_hash_holder,
+    output reg [4:0] state,
+    output wire [5:0] md4block_step,
+    output wire [3:0] hashchecker_state);
 
 `include "gen/inc/encodepwd.v"
 `include "src/inc/byteswap.v"
 `include "src/inc/md4constants.v"
-
-reg [4:0] state;
 
 wire [159:0] next_password_chars;
 wire [4:0] next_password_len;
@@ -67,7 +68,8 @@ md4block md4maker(
     md4_out_a,
     md4_out_b,
     md4_out_c,
-    md4_out_d);
+    md4_out_d,
+    md4block_step);
 
 hashchecker hchecker(
     clk,
@@ -76,7 +78,8 @@ hashchecker hchecker(
     md4_hash_holder,
     checker_resultrdy,
     checker_matchfound,
-    hashes);
+    hashes,
+    hashchecker_state);
 
 initial begin
     match_found <= 0;

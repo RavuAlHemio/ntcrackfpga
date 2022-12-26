@@ -7,11 +7,11 @@ module hashchecker (
     output reg matchfound,
 
     // debug outputs
-    output reg [(128*128-1):0] hashes);
+    output reg [(128*128-1):0] hashes,
+    output reg [3:0] state);
 
 `include "gen/inc/muxes.v"
 
-reg [3:0] state;
 reg [6:0] current_hash_index;
 reg write_trigger;
 reg [127:0] current_hash_bits;
