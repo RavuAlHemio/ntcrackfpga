@@ -332,7 +332,7 @@ fn main() -> ! {
                             uart::send(&mut peripherals, &output_hex);
                             if output_byte >= 0x20 && output_byte <= 0x7E {
                                 let mut buf: [u8; 7] = *b" == ' '";
-                                buf[6] = output_byte;
+                                buf[5] = output_byte;
                                 uart::send(&mut peripherals, &buf);
                             }
 
