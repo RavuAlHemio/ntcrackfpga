@@ -38,19 +38,19 @@ The following SAML21 pins are used for the interconnection with the evaluation b
 
 The following pins are used for other functions:
 
-| SAML21 pin | function                               |
-| ---------- | -------------------------------------- |
-| PA00       | XIN32 (32kHz oscillator input)         |
-| PA01       | reserved for XOUT32 (32k osc. output)  |
-| PA02       | avoided to ensure oscillator stability |
-| PA03       | avoided to ensure oscillator stability |
-| PA04       | UART TX (board to PC)                  |
-| PA05       | UART RX (PC to board)                  |
-| PA24       | on-board LED                           |
-| PA30       | SWCLK (debugging, clock signal)        |
-| PA31       | SWDIO (debugging, I/O)                 |
-| PB02       | avoided to ensure oscillator stability |
-| PB03       | avoided to ensure oscillator stability |
+| SAML21 pin | function                              |
+| ---------- | ------------------------------------- |
+| PA00       | XIN32 (32kHz oscillator input)        |
+| PA01       | reserved for XOUT32 (32k osc. output) |
+| PA02       | GND to ensure oscillator stability    |
+| PA03       | GND to ensure oscillator stability    |
+| PA04       | UART TX (board to PC)                 |
+| PA05       | UART RX (PC to board)                 |
+| PA24       | on-board LED                          |
+| PA30       | SWCLK (debugging, clock signal)       |
+| PA31       | SWDIO (debugging, I/O)                |
+| PB02       | GND to ensure oscillator stability    |
+| PB03       | GND to ensure oscillator stability    |
 
 ## JLCPCB notes
 
