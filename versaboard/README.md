@@ -35,6 +35,9 @@ The following SAML21 pins are used for the interconnection with the evaluation b
 | PA25       | J40 pin 21      | `step_active`      | →         | K5        |
 | PB23       | J40 pin 23      | `step_clock`       | →         | M5        |
 | PB22       | J40 pin 25      | `state_give`       | →         | L3        |
+| PB10       | J40 pin 27      | for future use 0   | tbd       | N2        |
+| PB11       | J40 pin 28      | for future use 1   | tbd       | M1        |
+| PA27       | J40 pin 29      | for future use 2   | tbd       | L2        |
 
 The following pins are used for other functions:
 
