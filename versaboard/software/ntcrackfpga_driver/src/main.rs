@@ -400,7 +400,8 @@ fn main() -> ! {
                 },
                 CrackState::SendingHash => {
                     // set new_hash_byte
-                    set_new_hash_byte(&mut peripherals, hash_buffer[current_index]);
+                    // note: the FPGA expects it right-to-left
+                    set_new_hash_byte(&mut peripherals, hash_buffer[hash_buffer.len() - current_index - 1]);
                     current_index += 1;
 
                     // pull "store_hash_byte" high
