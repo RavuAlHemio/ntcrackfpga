@@ -24,14 +24,14 @@ The following SAML21 pins are used for the interconnection with the evaluation b
 | PA13       | J40 pin 14      | `new_hash_byte[5]` | →         | N5        |
 | PA14       | J40 pin 16      | `new_hash_byte[6]` | →         | P5        |
 | PA15       | J40 pin 18      | `new_hash_byte[7]` | →         | M3        |
-| PA16       | J40 pin 1       | `password_byte[0]` | ←         | K2        |
-| PA17       | J40 pin 5       | `password_byte[1]` | ←         | H2        |
-| PA18       | J40 pin 7       | `password_byte[2]` | ←         | J4        |
-| PA19       | J40 pin 9       | `password_byte[3]` | ←         | J3        |
-| PA20       | J40 pin 11      | `password_byte[4]` | ←         | L4        |
-| PA21       | J40 pin 13      | `password_byte[5]` | ←         | M4        |
-| PA22       | J40 pin 15      | `password_byte[6]` | ←         | N4        |
-| PA23       | J40 pin 17      | `password_byte[7]` | ←         | N3        |
+| PA16       | J40 pin 1       | `output_byte[0]`   | ←         | K2        |
+| PA17       | J40 pin 5       | `output_byte[1]`   | ←         | H2        |
+| PA18       | J40 pin 7       | `output_byte[2]`   | ←         | J4        |
+| PA19       | J40 pin 9       | `output_byte[3]`   | ←         | J3        |
+| PA20       | J40 pin 11      | `output_byte[4]`   | ←         | L4        |
+| PA21       | J40 pin 13      | `output_byte[5]`   | ←         | M4        |
+| PA22       | J40 pin 15      | `output_byte[6]`   | ←         | N4        |
+| PA23       | J40 pin 17      | `output_byte[7]`   | ←         | N3        |
 
 The following pins are used for other functions:
 
