@@ -158,7 +158,7 @@ fn set_new_hash_byte(peripherals: &mut Peripherals, byte: u8) {
 }
 
 #[inline]
-fn get_password_byte(peripherals: &mut Peripherals) -> u8 {
+fn get_output_byte(peripherals: &mut Peripherals) -> u8 {
     // bit 0 = PA16, ... bit 7 = PA23
     const BIT_OFFSET: u32 = 16;
 
@@ -410,7 +410,7 @@ fn main() -> ! {
                 },
                 CrackState::PasswordOutput => {
                     // read password_byte
-                    password_buffer[current_index] = get_password_byte(&mut peripherals);
+                    password_buffer[current_index] = get_output_byte(&mut peripherals);
                     current_index += 1;
 
                     if current_index == PASSWORD_LENGTH + 2 {
