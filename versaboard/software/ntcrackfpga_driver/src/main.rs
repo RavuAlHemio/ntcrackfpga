@@ -427,7 +427,7 @@ fn main() -> ! {
                     password_buffer[current_index] = password_byte;
                     current_index += 1;
 
-                    if current_index == PASSWORD_LENGTH + 2 {
+                    if current_index == PASSWORD_LENGTH + 1 {
                         // full password read; slice and output it
                         let password_length: usize = password_buffer[PASSWORD_LENGTH].into();
                         uart::send(&mut peripherals, b"\r\nPassword found: \"");
