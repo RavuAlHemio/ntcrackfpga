@@ -93,19 +93,25 @@ pub fn set_up(peripherals: &mut Peripherals) {
     }
 }
 
-pub fn send(peripherals: &mut Peripherals, data: &[u8]) {
-    if data.len() == 0 {
+pub fn send(peripherals: &mut Peripherals, slice: &[u8]) {
+    send_iter(peripherals, slice.into_iter().map(|b| *b))
+}
+
+pub fn send_iter<I: IntoIterator<Item = u8>>(peripherals: &mut Peripherals, data: I) {
+    let mut peekable_data = data.into_iter().peekable();
+    if peekable_data.peek().is_none() {
+        // empty iterator; don't bother
         return;
     }
 
     let usart0 = peripherals.SERCOM0.usart();
 
-    for b in data {
+    for b in peekable_data {
         // wait for buffer to empty
         while usart0.intflag.read().dre().bit_is_clear() {
         }
 
-        usart0.data.write(|w| w.data().variant(*b as u16));
+        usart0.data.write(|w| w.data().variant(b as u16));
     }
 
     // wait for buffer to empty and transmission to finish

@@ -328,8 +328,7 @@ fn main() -> ! {
                                 }
                             }
                             uart::send(&mut peripherals, b" == 0x");
-                            let output_hex = byte_to_hex(output_byte);
-                            uart::send(&mut peripherals, &output_hex);
+                            uart::send_iter(&mut peripherals, byte_to_hex(output_byte));
                             if output_byte >= 0x20 && output_byte <= 0x7E {
                                 let mut buf: [u8; 7] = *b" == ' '";
                                 buf[5] = output_byte;
@@ -424,7 +423,8 @@ fn main() -> ! {
                 },
                 CrackState::PasswordOutput => {
                     // read password_byte
-                    password_buffer[current_index] = get_output_byte(&mut peripherals);
+                    let password_byte = get_output_byte(&mut peripherals);
+                    password_buffer[current_index] = password_byte;
                     current_index += 1;
 
                     if current_index == PASSWORD_LENGTH + 2 {
