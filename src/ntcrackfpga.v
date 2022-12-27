@@ -172,16 +172,21 @@ always @ (posedge clk) begin
         // processing stage
         7: begin
             // wait for go to be lowered again
-            if (!store_hash_byte) begin
+            if (!go) begin
                 state <= 8;
             end
         end
         8: begin
-            // load up the current password
-            `SET_MD4_INITIAL(md4_in_a, md4_in_b, md4_in_c, md4_in_d);
-            md4_data <= password_to_md4_data(password_chars, password_len);
-
-            state <= 9;
+            if (password_len == 21) begin
+                // we have reached maximum length
+                your_turn <= 1;
+                state <= 0;
+            end else begin
+                // load up the current password
+                `SET_MD4_INITIAL(md4_in_a, md4_in_b, md4_in_c, md4_in_d);
+                md4_data <= password_to_md4_data(password_chars, password_len);
+                state <= 9;
+            end
         end
         9: begin
             // trigger MD4
@@ -304,10 +309,15 @@ always @ (posedge clk) begin
                 state <= 28;
         end
         28: begin
+            // wait for incrementor to finish finishing (as absurd as it sounds)
+            if (!increment_password_done)
+                state <= 29;
+        end
+        29: begin
             // transfer incremented password and restart processing stage
             password_chars <= next_password_chars;
             password_len <= next_password_len;
-            state <= 7;
+            state <= 8;
         end
     endcase
 end
