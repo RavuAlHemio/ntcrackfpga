@@ -27,9 +27,8 @@ reg [7:0] password_byte;
 
 // nextpnr estimates our max clock at 70 MHz
 // base clock is ~310 MHz
-// => we could use a divisor of 5 (~62MHz)
-// be conservative and use 8 (~38MHz)
-OSCG #(.DIV(8)) built_in_clock(.OSC(builtin_clock));
+// => use a divisor of 5 (~62MHz)
+OSCG #(.DIV(5)) built_in_clock(.OSC(builtin_clock));
 
 clockpick clockpicker(
     builtin_clock,
