@@ -87,10 +87,18 @@ end
 
 
 always @ (posedge clk) begin
-    if (step != 0) begin
+    if (step == 0) begin
+        // wait for irdy to be raised
+        if (irdy)
+            step <= 1;
+    end else if (step == 1) begin
+        // wait for irdy to be lowered again
+        if (!irdy)
+            step <= 2;
+    end else begin
         // do the calculation step
         case (step)
-            1: begin
+            2: begin
                 aa <= state_a;
                 bb <= state_b;
                 cc <= state_c;
@@ -99,39 +107,37 @@ always @ (posedge clk) begin
 
             //          | step values | offsets in op |
 
-            `OP_F_CASES( 2,  3,  4,  5,  0,  1,  2,  3);
-            `OP_F_CASES( 6,  7,  8,  9,  4,  5,  6,  7);
-            `OP_F_CASES(10, 11, 12, 13,  8,  9, 10, 11);
-            `OP_F_CASES(14, 15, 16, 17, 12, 13, 14, 15);
+            `OP_F_CASES( 3,  4,  5,  6,  0,  1,  2,  3);
+            `OP_F_CASES( 7,  8,  9, 10,  4,  5,  6,  7);
+            `OP_F_CASES(11, 12, 13, 14,  8,  9, 10, 11);
+            `OP_F_CASES(15, 16, 17, 18, 12, 13, 14, 15);
 
-            `OP_G_CASES(18, 19, 20, 21,  0,  4,  8, 12);
-            `OP_G_CASES(22, 23, 24, 25,  1,  5,  9, 13);
-            `OP_G_CASES(26, 27, 28, 29,  2,  6, 10, 14);
-            `OP_G_CASES(30, 31, 32, 33,  3,  7, 11, 15);
+            `OP_G_CASES(19, 20, 21, 22,  0,  4,  8, 12);
+            `OP_G_CASES(23, 24, 25, 26,  1,  5,  9, 13);
+            `OP_G_CASES(27, 28, 29, 30,  2,  6, 10, 14);
+            `OP_G_CASES(31, 32, 33, 34,  3,  7, 11, 15);
 
-            `OP_H_CASES(34, 35, 36, 37,  0,  8,  4, 12);
-            `OP_H_CASES(38, 39, 40, 41,  2, 10,  6, 14);
-            `OP_H_CASES(42, 43, 44, 45,  1,  9,  5, 13);
-            `OP_H_CASES(46, 47, 48, 49,  3, 11,  7, 15);
+            `OP_H_CASES(35, 36, 37, 38,  0,  8,  4, 12);
+            `OP_H_CASES(39, 40, 41, 42,  2, 10,  6, 14);
+            `OP_H_CASES(43, 44, 45, 46,  1,  9,  5, 13);
+            `OP_H_CASES(47, 48, 49, 50,  3, 11,  7, 15);
 
-            50: begin
+            51: begin
                 newstate_a <= state_a + aa;
                 newstate_b <= state_b + bb;
                 newstate_c <= state_c + cc;
                 newstate_d <= state_d + dd;
             end
-            51: ordy <= 1;
-            52: /* keep ordy up */ ;
-            53: ordy <= 0;
+            52: ordy <= 1;
+            53: /* keep ordy up */ ;
+            54: ordy <= 0;
         endcase
 
         // advance the state machine
-        if (step == 53)
+        if (step == 54)
             step <= 0;
         else
             step <= step + 1;
-    end else if (irdy) begin
-        step <= 1;
     end
 end
 
