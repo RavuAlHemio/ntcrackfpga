@@ -430,6 +430,8 @@ fn main() -> ! {
                     if current_index == PASSWORD_LENGTH + 1 {
                         // full password read; slice and output it
                         let password_length: usize = password_buffer[PASSWORD_LENGTH].into();
+                        // password is transmitted last-character-to-first
+                        password_buffer[..password_length].reverse();
                         uart::send(&mut peripherals, b"\r\nPassword found: \"");
                         uart::send(&mut peripherals, &password_buffer[0..password_length]);
                         uart::send(&mut peripherals, b"\"\r\n>");
