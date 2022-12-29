@@ -63,3 +63,7 @@ IOBUF PORT "give_state" IO_TYPE=LVCMOS33;
 # button SW4 (low when active)
 LOCATE COMP "step_clock_bouncy" SITE "P4";
 IOBUF PORT "step_clock_bouncy" IO_TYPE=LVCMOS33;
+
+# button SW2 (low when active), meant as general reset
+LOCATE COMP "nrst_bouncy" SITE "G2";
+IOBUF PORT "nrst_bouncy" IO_TYPE=LVCMOS33;

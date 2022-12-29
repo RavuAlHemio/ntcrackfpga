@@ -5,10 +5,12 @@ module ntcrackfpga_hw(
     input step_active,
     input give_state,
     input step_clock_bouncy,
+    input nrst_bouncy,
     output reg match_found,
     output reg your_turn,
     output wire [7:0] output_byte);
 
+wire nrst;
 wire builtin_clock;
 wire output_clock;
 wire [7:0] stater_state_byte;
@@ -37,6 +39,7 @@ clockpick clockpicker(
     output_clock);
 
 ntcrackfpga cracker(
+    .nrst(nrst),
     .clk(cracker_clock),
     .new_hash_byte(new_hash_byte),
     .store_hash_byte(store_hash_byte),
@@ -53,6 +56,7 @@ ntcrackfpga cracker(
     .hashchecker_state(hashchecker_state));
 
 state_giver stater(
+    .nrst(nrst),
     .clk(stater_clock),
     .password_len(password_len),
     .password_chars(password_chars),
@@ -63,10 +67,15 @@ state_giver stater(
     .md4block_step(md4block_step),
     .state_byte(stater_state_byte));
 
+debounce nrst_debouncer(
+    .clk(builtin_clock),
+    .in(nrst_bouncy),
+    .out(nrst));
+
 debounce #(.inverting(1'b1)) step_clock_debouncer(
-    builtin_clock,
-    step_clock_bouncy,
-    step_clock);
+    .clk(builtin_clock),
+    .in(step_clock_bouncy),
+    .out(step_clock));
 
 assign stater_clock = give_state ? output_clock : 0;
 assign cracker_clock = give_state ? 0 : output_clock;

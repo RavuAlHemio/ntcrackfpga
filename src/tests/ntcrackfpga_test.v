@@ -2,6 +2,7 @@ module ntcrackfpga_test();
 
 `include "gen/inc/muxes.v"
 
+reg nrst;
 reg clk;
 reg [7:0] new_hash_byte;
 reg store_hash_byte;
@@ -9,25 +10,29 @@ reg go;
 wire match_found;
 wire my_turn;
 wire [7:0] password_byte;
-wire blinky_led;
 
 reg [7:0] state;
 reg [167:0] password;
 reg [1:0] found_password_count;
 
+reg [3:0] nrst_counter;
+
 ntcrackfpga cracker(
-    clk,
-    new_hash_byte,
-    store_hash_byte,
-    go,
-    match_found,
-    my_turn,
-    password_byte,
-    blinky_led);
+    .nrst(nrst),
+    .clk(clk),
+    .new_hash_byte(new_hash_byte),
+    .store_hash_byte(store_hash_byte),
+    .go(go),
+    .match_found(match_found),
+    .my_turn(my_turn),
+    .password_byte(password_byte));
 
 initial begin
     $dumpfile("ntcrackfpga_test.vcd");
     $dumpvars(0, ntcrackfpga_test);
+
+    nrst <= 0;
+    nrst_counter <= 0;
 
     clk <= 0;
     new_hash_byte <= 0;
@@ -105,85 +110,92 @@ end
 
 
 always @ (posedge clk) begin
-    // populate the following hashes:
-    // md4(utf16le("12")) == md4("\x31\x00\x32\x00") == 588FEB889288FB953B5F094D47D1565C
-    // md4(utf16le("!?")) == md4("\x21\x00\x3F\x00") == 91D533DC611AC2774431E2D0BAF36805
-    case (state)
-        `STORE_HASH(0, 128'h588FEB889288FB953B5F094D47D1565C)
-        `STORE_HASH(80, 128'h91D533DC611AC2774431E2D0BAF36805)
+    if (!nrst) begin
+        if (nrst_counter == 4'b1111)
+            nrst <= 1;
+        else
+            nrst_counter <= nrst_counter + 1;
+    end else begin
+        // populate the following hashes:
+        // md4(utf16le("12")) == md4("\x31\x00\x32\x00") == 588FEB889288FB953B5F094D47D1565C
+        // md4(utf16le("!?")) == md4("\x21\x00\x3F\x00") == 91D533DC611AC2774431E2D0BAF36805
+        case (state)
+            `STORE_HASH(0, 128'h588FEB889288FB953B5F094D47D1565C)
+            `STORE_HASH(80, 128'h91D533DC611AC2774431E2D0BAF36805)
 
-        160: begin
-            if (my_turn) begin
-                state <= 161;
-            end
-        end
-        161: begin
-            $display("%x", cracker.hchecker.hashes);
-            $display("%d", cracker.hchecker.current_hash_index);
-            go <= 1;
-            state <= 162;
-        end
-        162: begin
-            state <= 163;
-        end
-        163: begin
-            go <= 0;
-            state <= 164;
-        end
-        164: begin
-            `ifndef PERFORM_FULL_RUN
-            // wait for it
-            if (found_password_count == 2) begin
-                // early break
-                $finish;
-            end else
-            `endif
-
-            if (my_turn) begin
-                if (match_found) begin
-                    // we have a password
-                    state <= 165;
-                end else begin
-                    // we are done
-                    $finish;
+            160: begin
+                if (my_turn) begin
+                    state <= 161;
                 end
             end
-        end
+            161: begin
+                $display("%x", cracker.hchecker.hashes);
+                $display("%d", cracker.hchecker.current_hash_index);
+                go <= 1;
+                state <= 162;
+            end
+            162: begin
+                state <= 163;
+            end
+            163: begin
+                go <= 0;
+                state <= 164;
+            end
+            164: begin
+                `ifndef PERFORM_FULL_RUN
+                // wait for it
+                if (found_password_count == 2) begin
+                    // early break
+                    $finish;
+                end else
+                `endif
 
-        // read the finished password
-        `STORE_PASSWORD_BYTE(165, 152)
-        `STORE_PASSWORD_BYTE(169, 144)
-        `STORE_PASSWORD_BYTE(173, 136)
-        `STORE_PASSWORD_BYTE(177, 128)
-        `STORE_PASSWORD_BYTE(181, 120)
-        `STORE_PASSWORD_BYTE(185, 112)
-        `STORE_PASSWORD_BYTE(189, 104)
-        `STORE_PASSWORD_BYTE(193, 96)
-        `STORE_PASSWORD_BYTE(197, 88)
-        `STORE_PASSWORD_BYTE(201, 80)
-        `STORE_PASSWORD_BYTE(205, 72)
-        `STORE_PASSWORD_BYTE(209, 64)
-        `STORE_PASSWORD_BYTE(213, 56)
-        `STORE_PASSWORD_BYTE(217, 48)
-        `STORE_PASSWORD_BYTE(221, 40)
-        `STORE_PASSWORD_BYTE(225, 32)
-        `STORE_PASSWORD_BYTE(229, 24)
-        `STORE_PASSWORD_BYTE(233, 16)
-        `STORE_PASSWORD_BYTE(237, 8)
-        `STORE_PASSWORD_BYTE(241, 0)
+                if (my_turn) begin
+                    if (match_found) begin
+                        // we have a password
+                        state <= 165;
+                    end else begin
+                        // we are done
+                        $finish;
+                    end
+                end
+            end
 
-        // and the length
-        `STORE_PASSWORD_BYTE(245, 160)
+            // read the finished password
+            `STORE_PASSWORD_BYTE(165, 152)
+            `STORE_PASSWORD_BYTE(169, 144)
+            `STORE_PASSWORD_BYTE(173, 136)
+            `STORE_PASSWORD_BYTE(177, 128)
+            `STORE_PASSWORD_BYTE(181, 120)
+            `STORE_PASSWORD_BYTE(185, 112)
+            `STORE_PASSWORD_BYTE(189, 104)
+            `STORE_PASSWORD_BYTE(193, 96)
+            `STORE_PASSWORD_BYTE(197, 88)
+            `STORE_PASSWORD_BYTE(201, 80)
+            `STORE_PASSWORD_BYTE(205, 72)
+            `STORE_PASSWORD_BYTE(209, 64)
+            `STORE_PASSWORD_BYTE(213, 56)
+            `STORE_PASSWORD_BYTE(217, 48)
+            `STORE_PASSWORD_BYTE(221, 40)
+            `STORE_PASSWORD_BYTE(225, 32)
+            `STORE_PASSWORD_BYTE(229, 24)
+            `STORE_PASSWORD_BYTE(233, 16)
+            `STORE_PASSWORD_BYTE(237, 8)
+            `STORE_PASSWORD_BYTE(241, 0)
 
-        249: begin
-            // spit out password
-            $display("found: %x", password);
-            found_password_count <= found_password_count + 1;
+            // and the length
+            `STORE_PASSWORD_BYTE(245, 160)
 
-            // wait for next event
-            state <= 164;
-        end
-    endcase
+            249: begin
+                // spit out password
+                $display("found: %x", password);
+                found_password_count <= found_password_count + 1;
+
+                // wait for next event
+                state <= 164;
+            end
+        endcase
+    end
 end
 
 endmodule
