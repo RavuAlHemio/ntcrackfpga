@@ -11,7 +11,7 @@ module ntcrackfpga(
     // debug outputs
     output reg [4:0] password_len,
     output reg [159:0] password_chars,
-    output wire [(128*128-1):0] hashes,
+    output wire [(64*128-1):0] hashes,
     output reg [127:0] md4_hash_holder,
     output reg [4:0] state,
     output wire [5:0] md4block_step,

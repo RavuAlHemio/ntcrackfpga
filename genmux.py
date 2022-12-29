@@ -55,7 +55,7 @@ def main():
     multiplexers = [
         Multiplexer(
             slice_size=128,
-            full_size=128*128,
+            full_size=64*128,
         ),
         Multiplexer(
             slice_size=8,

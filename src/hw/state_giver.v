@@ -3,7 +3,7 @@ module state_giver(
     input clk,
     input [4:0] password_len,
     input [159:0] password_chars,
-    input [(128*128-1):0] hashes,
+    input [(64*128-1):0] hashes,
     input [127:0] current_hash,
     input [4:0] ntcrackfpga_state,
     input [3:0] hashchecker_state,
@@ -71,43 +71,43 @@ always @ (posedge clk) begin
 
             // stored hashes
             // Python:
-            // for n in range(2048):
+            // for n in range(2*128 // 8):
             //     if n % 16 == 0:
             //         print()
-            //     print(f"        {n+36}: state_byte <= hashes[{128*128-(8*n+1)}:{128*128-(8*n+8)}];")
-            36: state_byte <= hashes[16383:16376];
-            37: state_byte <= hashes[16375:16368];
-            38: state_byte <= hashes[16367:16360];
-            39: state_byte <= hashes[16359:16352];
-            40: state_byte <= hashes[16351:16344];
-            41: state_byte <= hashes[16343:16336];
-            42: state_byte <= hashes[16335:16328];
-            43: state_byte <= hashes[16327:16320];
-            44: state_byte <= hashes[16319:16312];
-            45: state_byte <= hashes[16311:16304];
-            46: state_byte <= hashes[16303:16296];
-            47: state_byte <= hashes[16295:16288];
-            48: state_byte <= hashes[16287:16280];
-            49: state_byte <= hashes[16279:16272];
-            50: state_byte <= hashes[16271:16264];
-            51: state_byte <= hashes[16263:16256];
+            //     print(f"            {n+36}: state_byte <= hashes[{64*128-(8*n+1)}:{64*128-(8*n+8)}];")
+            36: state_byte <= hashes[8191:8184];
+            37: state_byte <= hashes[8183:8176];
+            38: state_byte <= hashes[8175:8168];
+            39: state_byte <= hashes[8167:8160];
+            40: state_byte <= hashes[8159:8152];
+            41: state_byte <= hashes[8151:8144];
+            42: state_byte <= hashes[8143:8136];
+            43: state_byte <= hashes[8135:8128];
+            44: state_byte <= hashes[8127:8120];
+            45: state_byte <= hashes[8119:8112];
+            46: state_byte <= hashes[8111:8104];
+            47: state_byte <= hashes[8103:8096];
+            48: state_byte <= hashes[8095:8088];
+            49: state_byte <= hashes[8087:8080];
+            50: state_byte <= hashes[8079:8072];
+            51: state_byte <= hashes[8071:8064];
 
-            52: state_byte <= hashes[16255:16248];
-            53: state_byte <= hashes[16247:16240];
-            54: state_byte <= hashes[16239:16232];
-            55: state_byte <= hashes[16231:16224];
-            56: state_byte <= hashes[16223:16216];
-            57: state_byte <= hashes[16215:16208];
-            58: state_byte <= hashes[16207:16200];
-            59: state_byte <= hashes[16199:16192];
-            60: state_byte <= hashes[16191:16184];
-            61: state_byte <= hashes[16183:16176];
-            62: state_byte <= hashes[16175:16168];
-            63: state_byte <= hashes[16167:16160];
-            64: state_byte <= hashes[16159:16152];
-            65: state_byte <= hashes[16151:16144];
-            66: state_byte <= hashes[16143:16136];
-            67: state_byte <= hashes[16135:16128];
+            52: state_byte <= hashes[8063:8056];
+            53: state_byte <= hashes[8055:8048];
+            54: state_byte <= hashes[8047:8040];
+            55: state_byte <= hashes[8039:8032];
+            56: state_byte <= hashes[8031:8024];
+            57: state_byte <= hashes[8023:8016];
+            58: state_byte <= hashes[8015:8008];
+            59: state_byte <= hashes[8007:8000];
+            60: state_byte <= hashes[7999:7992];
+            61: state_byte <= hashes[7991:7984];
+            62: state_byte <= hashes[7983:7976];
+            63: state_byte <= hashes[7975:7968];
+            64: state_byte <= hashes[7967:7960];
+            65: state_byte <= hashes[7959:7952];
+            66: state_byte <= hashes[7951:7944];
+            67: state_byte <= hashes[7943:7936];
 
             // header
             68: state_byte <= 8'h0A;
