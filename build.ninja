@@ -7,7 +7,7 @@ ecppack = ecppack
 
 iveriflags = -D SIMULATION -Wall
 yoflags =
-pnrflags = --um5g-85k --package CABGA381
+pnrflags = --um5g-85k --package CABGA381 --placer-heap-cell-placement-timeout 20000
 
 rule iverilog
     command = $iverilog $iveriflags -o $out $in
